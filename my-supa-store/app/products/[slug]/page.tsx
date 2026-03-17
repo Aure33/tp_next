@@ -1,4 +1,5 @@
 import AddToCartButton from "@/components/AddToCartButton";
+import ProductTabs from "@/components/ProductTabs";
 import { notFound } from "next/navigation";
 import Image from "next/image";
 import Link from "next/link";
@@ -8,6 +9,7 @@ import { Product } from "@/domains/catalog/types";
 // Static props replacement props type
 type PageProps = {
   params: Promise<{ slug: string }>;
+  searchParams: Promise<{ tab?: string }>;
 };
 
 // Helper (DRY: in a real app, this goes to a repository layer)
@@ -41,8 +43,9 @@ export async function generateMetadata({ params }: PageProps) {
   };
 }
 
-export default async function ProductPage({ params }: PageProps) {
+export default async function ProductPage({ params, searchParams }: PageProps) {
   const resolvedParams = await params;
+  const resolvedSearchParams = await searchParams;
   const dbProduct = await prisma.product.findUnique({
     where: { slug: resolvedParams.slug },
   });
@@ -50,6 +53,7 @@ export default async function ProductPage({ params }: PageProps) {
   if (!dbProduct) notFound();
   
   const product: Product = mapDbToProduct(dbProduct);
+  const activeTab = resolvedSearchParams?.tab || 'description';
 
   return (
     <article className="max-w-6xl mx-auto px-6 py-16 lg:py-24 bg-[#0a0a0a]/60 rounded-[3rem] border border-white/[0.05] shadow-[0_35px_60px_-15px_rgba(0,0,0,0.3)] mt-12 backdrop-blur-3xl">
@@ -117,30 +121,7 @@ export default async function ProductPage({ params }: PageProps) {
             </span>
           </div>
 
-          <div className="mb-16">
-            <h3 className="text-[10px] font-black border-b border-white/[0.05] pb-4 mb-8 uppercase tracking-[0.4em] text-gray-500">
-              Description
-            </h3>
-            <p className="text-gray-400 font-medium text-lg leading-relaxed leading-[1.8]">
-              {product.description}
-            </p>
-          </div>
-
-          <div className="mb-16 p-10 bg-white/[0.02] rounded-[2rem] border border-white/[0.05] backdrop-blur-2xl">
-            <h3 className="text-[10px] font-black mb-8 text-gray-500 uppercase tracking-[0.4em]">
-              Technical Specs
-            </h3>
-            <ul className="grid grid-cols-1 sm:grid-cols-2 gap-x-16 gap-y-6">
-              {product.specs && Object.entries(product.specs).map(([key, value]) => (
-                <li key={key} className="flex justify-between border-b border-white/[0.03] pb-3">
-                  <span className="text-[10px] font-bold text-gray-600 uppercase tracking-tight">{key.replace(/([A-Z])/g, ' $1')}</span>
-                  <span className="font-black text-gray-300 text-[11px] uppercase tracking-tighter">
-                    {typeof value === 'boolean' ? (value ? 'YES' : 'NO') : value}
-                  </span>
-                </li>
-              ))}
-            </ul>
-          </div>
+          <ProductTabs product={product} activeTab={activeTab} />
 
           <div className="mt-auto pt-8">
             <AddToCartButton product={product} disabled={product.stock === 0} />
