@@ -1,0 +1,395 @@
+[
+    {
+        "id": "prod-1",
+        "name": "Casque Over-Ear Pro",
+        "slug": "casque-over-ear-pro",
+        "description": "Casque audio professionnel avec réduction de bruit active, autonomie 30h. Coussinets en mousse mémoire, pliable avec étui rigide.",
+        "price": 249.99,
+        "currency": "EUR",
+        "stock": 42,
+        "sku": "AUD-CAS-001",
+        "category": "Audio",
+        "brand": "SoundMax",
+        "images": {
+            "main": "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=800",
+            "gallery": [
+                "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=800",
+                "https://images.unsplash.com/photo-1484704849700-f032a568e944?w=800",
+                "https://images.unsplash.com/photo-1546435770-a3e426bf472b?w=800"
+            ]
+        },
+        "specs": {
+            "weight": "320g",
+            "driverSize": "40mm",
+            "impedance": "32 Ohm",
+            "bluetooth": true
+        },
+        "similar": [
+            "enceinte-bluetooth-portable",
+            "montre-connectee-sport",
+            "clavier-mecanique-rgb"
+        ]
+    },
+    {
+        "id": "prod-2",
+        "name": "Montre Connectée Sport",
+        "slug": "montre-connectee-sport",
+        "description": "Montre GPS avec suivi cardio, SpO2, 50+ modes sport. Écran AMOLED 1.4\", étanche 5 ATM, batterie 14 jours.",
+        "price": 179,
+        "currency": "EUR",
+        "stock": 0,
+        "sku": "WAT-SPT-002",
+        "category": "Wearables",
+        "brand": "FitTrack",
+        "images": {
+            "main": "https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=800",
+            "gallery": [
+                "https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=800",
+                "https://images.unsplash.com/photo-1546868871-7041f2a55e12?w=800",
+                "https://images.unsplash.com/photo-1579586337278-3befd40fd17a?w=800"
+            ]
+        },
+        "specs": {
+            "screenSize": "1.4 inch",
+            "waterResistance": "5 ATM",
+            "batteryDays": 14,
+            "gps": true
+        },
+        "similar": [
+            "casque-over-ear-pro",
+            "enceinte-bluetooth-portable",
+            "coque-smartphone-premium"
+        ]
+    },
+    {
+        "id": "prod-3",
+        "name": "Clavier Mécanique RGB",
+        "slug": "clavier-mecanique-rgb",
+        "description": "Clavier 65% compact, switches Cherry MX Red, rétroéclairage RGB par touche. Alu usiné, repose-poignets magnétique inclus.",
+        "price": 149.99,
+        "currency": "EUR",
+        "stock": 18,
+        "sku": "KBD-MEC-003",
+        "category": "Périphériques",
+        "brand": "KeyFlow",
+        "images": {
+            "main": "https://images.unsplash.com/photo-1511467687858-23d96c32e4ae?w=800",
+            "gallery": [
+                "https://images.unsplash.com/photo-1511467687858-23d96c32e4ae?w=800",
+                "https://images.unsplash.com/photo-1587829741301-dc798b83add3?w=800",
+                "https://images.unsplash.com/photo-1541140534514-08295abd76af?w=800"
+            ]
+        },
+        "specs": {
+            "layout": "65%",
+            "switchType": "Cherry MX Red",
+            "backlight": "RGB",
+            "connection": "USB-C"
+        },
+        "similar": [
+            "souris-sans-fil-pro",
+            "lampe-bureau-led",
+            "tapis-souris-gaming",
+            "webcam-hd-pro"
+        ]
+    },
+    {
+        "id": "prod-4",
+        "name": "Lampe de Bureau LED",
+        "slug": "lampe-bureau-led",
+        "description": "Lampe design réglable en hauteur et orientation. Température de couleur 2700K–6500K, intensité dimmable, base lestée.",
+        "price": 69,
+        "currency": "EUR",
+        "stock": 156,
+        "sku": "LMP-LED-004",
+        "category": "Bureau",
+        "brand": "Lumio",
+        "images": {
+            "main": "https://images.unsplash.com/photo-1507473885765-e6ed057f782c?w=800",
+            "gallery": [
+                "https://images.unsplash.com/photo-1507473885765-e6ed057f782c?w=800",
+                "https://images.unsplash.com/photo-1513506003901-1e6a229e2d15?w=800",
+                "https://images.unsplash.com/photo-1524484485832-bcea3bfd239c?w=800"
+            ]
+        },
+        "specs": {
+            "power": "12W",
+            "colorTemp": "2700K-6500K",
+            "dimmable": true,
+            "material": "Aluminium"
+        },
+        "similar": [
+            "clavier-mecanique-rgb",
+            "support-laptop-ergo",
+            "chargeur-multi-port-gan"
+        ]
+    },
+    {
+        "id": "prod-5",
+        "name": "Sac à Dos 25L Pro",
+        "slug": "sac-a-dos-25l-pro",
+        "description": "Sac pour laptop jusqu'à 17\", compartiment tablette, poches organisatrices. Tissu résistant à l'eau, bretelles rembourrées.",
+        "price": 89.99,
+        "currency": "EUR",
+        "stock": 7,
+        "sku": "BAG-BP-005",
+        "category": "Accessoires",
+        "brand": "CarryAll",
+        "images": {
+            "main": "https://images.unsplash.com/photo-1553062407-98eeb64c6a62?w=800",
+            "gallery": [
+                "https://images.unsplash.com/photo-1553062407-98eeb64c6a62?w=800",
+                "https://images.unsplash.com/photo-1581605405669-fcdf81165afa?w=800",
+                "https://images.unsplash.com/photo-1622560480605-d83c853bc5c3?w=800"
+            ]
+        },
+        "specs": {
+            "capacity": "25L",
+            "laptopSleeve": "17 inch",
+            "waterResistant": true,
+            "weight": "0.9 kg"
+        },
+        "similar": [
+            "chargeur-multi-port-gan",
+            "cable-usb-c-2m",
+            "coque-smartphone-premium"
+        ]
+    },
+    {
+        "id": "prod-6",
+        "name": "Enceinte Bluetooth Portable",
+        "slug": "enceinte-bluetooth-portable",
+        "description": "Enceinte étanche IP67, 20W, basses renforcés. Autonomie 12h, charge USB-C, main libre intégré.",
+        "price": 79.99,
+        "currency": "EUR",
+        "stock": 34,
+        "sku": "AUD-SPK-006",
+        "category": "Audio",
+        "brand": "SoundMax",
+        "images": {
+            "main": "https://images.unsplash.com/photo-1608043152269-423dbba4e7e1?w=800",
+            "gallery": [
+                "https://images.unsplash.com/photo-1608043152269-423dbba4e7e1?w=800",
+                "https://images.unsplash.com/photo-1545454670-2c83f069d254?w=800"
+            ]
+        },
+        "specs": {
+            "power": "20W",
+            "ipRating": "IP67",
+            "batteryHours": 12,
+            "bluetooth": true
+        },
+        "similar": [
+            "casque-over-ear-pro",
+            "montre-connectee-sport",
+            "chargeur-multi-port-gan"
+        ]
+    },
+    {
+        "id": "prod-7",
+        "name": "Souris Sans Fil Pro",
+        "slug": "souris-sans-fil-pro",
+        "description": "Souris ergonomique 16000 DPI, 6 boutons programmables. Connexion 2.4 GHz + Bluetooth, autonomie 70h.",
+        "price": 59.99,
+        "currency": "EUR",
+        "stock": 28,
+        "sku": "MOU-WLS-007",
+        "category": "Périphériques",
+        "brand": "KeyFlow",
+        "images": {
+            "main": "https://images.unsplash.com/photo-1615663245857-ac93bb7c39e7?w=800",
+            "gallery": [
+                "https://images.unsplash.com/photo-1615663245857-ac93bb7c39e7?w=800",
+                "https://images.unsplash.com/photo-1574944985070-8f3ebc6b79d2?w=800",
+                "https://images.unsplash.com/photo-1527814050087-3793815479db?w=800"
+            ]
+        },
+        "specs": {
+            "dpi": 16000,
+            "buttons": 6,
+            "connection": "2.4GHz + BT",
+            "batteryHours": 70
+        },
+        "similar": [
+            "clavier-mecanique-rgb",
+            "tapis-souris-gaming",
+            "webcam-hd-pro"
+        ]
+    },
+    {
+        "id": "prod-8",
+        "name": "Webcam HD Pro",
+        "slug": "webcam-hd-pro",
+        "description": "Webcam 1080p 60 fps, micro intégré à réduction de bruit. Fixation clip bureau ou écran, lentille grand angle.",
+        "price": 94.99,
+        "currency": "EUR",
+        "stock": 15,
+        "sku": "VID-WEB-008",
+        "category": "Périphériques",
+        "brand": "KeyFlow",
+        "images": {
+            "main": "https://images.unsplash.com/photo-1587826080692-f439cd0b70da?w=800",
+            "gallery": [
+                "https://images.unsplash.com/photo-1587826080692-f439cd0b70da?w=800"
+            ]
+        },
+        "specs": {
+            "resolution": "1080p",
+            "fps": 60,
+            "microphone": true,
+            "fov": "78°"
+        },
+        "similar": [
+            "clavier-mecanique-rgb",
+            "souris-sans-fil-pro",
+            "lampe-bureau-led"
+        ]
+    },
+    {
+        "id": "prod-9",
+        "name": "Chargeur Multi-Port GaN 65W",
+        "slug": "chargeur-multi-port-gan",
+        "description": "Chargeur compact GaN 65W, 2× USB-C + 1× USB-A. Charge rapide PD 3.0 / PPS, pliable.",
+        "price": 49.99,
+        "currency": "EUR",
+        "stock": 89,
+        "sku": "PWR-GAN-009",
+        "category": "Accessoires",
+        "brand": "CarryAll",
+        "images": {
+            "main": "https://images.unsplash.com/photo-1583394838336-acd977736f90?w=800",
+            "gallery": [
+                "https://images.unsplash.com/photo-1583394838336-acd977736f90?w=800",
+                "https://images.unsplash.com/photo-1625723044792-44de16ccb4e9?w=800"
+            ]
+        },
+        "specs": {
+            "power": "65W",
+            "ports": "2× USB-C, 1× USB-A",
+            "pd": "3.0",
+            "gan": true
+        },
+        "similar": [
+            "cable-usb-c-2m",
+            "sac-a-dos-25l-pro",
+            "enceinte-bluetooth-portable"
+        ]
+    },
+    {
+        "id": "prod-10",
+        "name": "Câble USB-C 2m",
+        "slug": "cable-usb-c-2m",
+        "description": "Câble USB-C vers USB-C 2 m, 100 W, données USB 3.2 10 Gbps. Tressé, connecteurs renforcés.",
+        "price": 19.99,
+        "currency": "EUR",
+        "stock": 200,
+        "sku": "CAB-USB-010",
+        "category": "Accessoires",
+        "brand": "CarryAll",
+        "images": {
+            "main": "https://images.unsplash.com/photo-1619459072761-496c0812331b?w=800",
+            "gallery": [
+                "https://images.unsplash.com/photo-1619459072761-496c0812331b?w=800",
+                "https://images.unsplash.com/photo-1604187351574-c75ca79f5807?w=800"
+            ]
+        },
+        "specs": {
+            "length": "2m",
+            "power": "100W",
+            "dataSpeed": "10 Gbps",
+            "type": "USB-C to USB-C"
+        },
+        "similar": [
+            "chargeur-multi-port-gan",
+            "sac-a-dos-25l-pro",
+            "coque-smartphone-premium"
+        ]
+    },
+    {
+        "id": "prod-11",
+        "name": "Coque Smartphone Premium",
+        "slug": "coque-smartphone-premium",
+        "description": "Coque slim en silicone et polycarbonate, bords renforcés. Compatible recharge sans fil, plusieurs coloris.",
+        "price": 24.99,
+        "currency": "EUR",
+        "stock": 120,
+        "sku": "ACC-CAS-011",
+        "category": "Accessoires",
+        "brand": "CarryAll",
+        "images": {
+            "main": "https://images.unsplash.com/photo-1592320402243-605cc3e935f7?w=800",
+            "gallery": [
+                "https://images.unsplash.com/photo-1592320402243-605cc3e935f7?w=800",
+                "https://images.unsplash.com/photo-1601784551446-20c9e07cdb31?w=800"
+            ]
+        },
+        "specs": {
+            "material": "Silicone + PC",
+            "wirelessCharging": true,
+            "dropProtection": "2m"
+        },
+        "similar": [
+            "montre-connectee-sport",
+            "cable-usb-c-2m",
+            "sac-a-dos-25l-pro"
+        ]
+    },
+    {
+        "id": "prod-12",
+        "name": "Support Laptop Ergonomique",
+        "slug": "support-laptop-ergo",
+        "description": "Socle aluminium réglable en hauteur et inclinaison. Aération optimale, antidérapant, jusqu'à 17\".",
+        "price": 39.99,
+        "currency": "EUR",
+        "stock": 45,
+        "sku": "BUR-STD-012",
+        "category": "Bureau",
+        "brand": "Lumio",
+        "images": {
+            "main": "https://images.unsplash.com/photo-1593642632559-0c6d3fc62b89?w=800",
+            "gallery": [
+                "https://images.unsplash.com/photo-1593642632559-0c6d3fc62b89?w=800",
+                "https://images.unsplash.com/photo-1586281380349-632531db7ed4?w=800"
+            ]
+        },
+        "specs": {
+            "maxSize": "17 inch",
+            "material": "Aluminium",
+            "adjustable": true
+        },
+        "similar": [
+            "lampe-bureau-led",
+            "clavier-mecanique-rgb",
+            "webcam-hd-pro"
+        ]
+    },
+    {
+        "id": "prod-13",
+        "name": "Tapis de Souris Gaming",
+        "slug": "tapis-souris-gaming",
+        "description": "Tapis XXL 90×40 cm, surface tissée rapide, bordure surpiquée. Base antidérapante en caoutchouc.",
+        "price": 29.99,
+        "currency": "EUR",
+        "stock": 62,
+        "sku": "GAM-MAT-013",
+        "category": "Périphériques",
+        "brand": "KeyFlow",
+        "images": {
+            "main": "https://images.unsplash.com/photo-1587829741301-dc798b83add3?w=800",
+            "gallery": [
+                "https://images.unsplash.com/photo-1587829741301-dc798b83add3?w=800",
+                "https://images.unsplash.com/photo-1593640408182-31c70c8268f5?w=800"
+            ]
+        },
+        "specs": {
+            "size": "90×40 cm",
+            "surface": "Woven",
+            "thickness": "3mm"
+        },
+        "similar": [
+            "clavier-mecanique-rgb",
+            "souris-sans-fil-pro",
+            "lampe-bureau-led"
+        ]
+    }
+]
