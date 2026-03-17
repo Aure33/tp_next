@@ -26,8 +26,8 @@ export default function AddToCartButton({
       disabled={disabled || adding}
       className={`relative group w-full py-5 px-10 rounded-2xl text-sm font-black transition-all duration-300 transform shadow-xl uppercase tracking-[0.2em] overflow-hidden ${
         disabled || adding
-          ? "bg-gray-100 dark:bg-gray-800 text-gray-400 dark:text-gray-600 cursor-not-allowed" 
-          : "bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 hover:-translate-y-1 text-white hover:shadow-2xl active:scale-95"
+          ? "bg-gray-100/30 dark:bg-gray-800/50 text-gray-500 dark:text-gray-500 cursor-not-allowed" 
+          : "bg-gradient-to-r from-gray-600 to-gray-400 hover:from-gray-500 hover:to-gray-300 hover:-translate-y-1 text-white hover:shadow-2xl active:scale-95"
       }`}
     >
       <span className={`flex items-center justify-center transition-opacity ${adding ? "opacity-0" : "opacity-100"}`}>

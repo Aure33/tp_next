@@ -1,6 +1,4 @@
 import Link from "next/link";
-import Navigation from "@/components/Navigation";
-import Footer from "@/components/Footer";
 
 export default function AdminLayout({
   children,
@@ -21,7 +19,6 @@ export default function AdminLayout({
       <main className="flex-grow py-8 bg-white max-w-7xl mx-auto w-full px-4 sm:px-6 lg:px-8">
         {children}
       </main>
-      <Footer />
     </div>
   );
 }

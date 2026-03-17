@@ -7,7 +7,7 @@ export default function Navigation() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-16">
           <div className="flex-shrink-0 flex items-center space-x-4">
-            <Link href="/" className="text-2xl font-script bg-clip-text text-transparent bg-gradient-to-r from-blue-500 to-purple-600 hover:opacity-80 transition-opacity">
+            <Link href="/" className="text-2xl font-script bg-clip-text text-transparent bg-gradient-to-r from-gray-200 to-gray-400 hover:opacity-80 transition-opacity">
               My Supa Store
             </Link>
           </div>

@@ -52,10 +52,10 @@ export default async function ProductPage({ params }: PageProps) {
   const product: Product = mapDbToProduct(dbProduct);
 
   return (
-    <article className="max-w-6xl mx-auto px-4 py-12 sm:px-6 lg:px-8 bg-white/50 rounded-3xl border border-gray-100 shadow-sm mt-8">
+    <article className="max-w-6xl mx-auto px-4 py-12 sm:px-6 lg:px-8 bg-white/30 rounded-3xl border border-white/10 shadow-sm mt-8 backdrop-blur-sm">
       <Link
         href="/"
-        className="inline-flex items-center text-xs font-black text-gray-400 hover:text-blue-600 mb-10 transition-colors uppercase tracking-[0.2em]"
+        className="inline-flex items-center text-xs font-black text-gray-400 hover:text-gray-200 mb-10 transition-colors uppercase tracking-[0.2em]"
       >
         &larr; Revenir à l&apos;accueil
       </Link>
@@ -63,7 +63,7 @@ export default async function ProductPage({ params }: PageProps) {
       <div className="grid grid-cols-1 md:grid-cols-2 gap-16 lg:gap-24">
         {/* Gallery */}
         <div className="space-y-8">
-          <div className="relative aspect-square w-full rounded-2xl overflow-hidden bg-gray-50 shadow-2xl border border-gray-100/50">
+          <div className="relative aspect-square w-full rounded-2xl overflow-hidden bg-gray-100/50 shadow-2xl border border-white/10">
             <Image
               src={product.images.main}
               alt={product.name}
@@ -73,7 +73,7 @@ export default async function ProductPage({ params }: PageProps) {
               priority
             />
             {product.stock === 0 && (
-              <div className="absolute top-6 right-6 bg-red-500 text-white font-black text-xs px-5 py-2.5 rounded shadow-2xl z-20 uppercase tracking-[0.3em]">
+              <div className="absolute top-6 right-6 bg-red-500/80 text-white font-black text-xs px-5 py-2.5 rounded shadow-2xl z-20 uppercase tracking-[0.3em] backdrop-blur-sm">
                 Rupture
               </div>
             )}
@@ -82,7 +82,7 @@ export default async function ProductPage({ params }: PageProps) {
           {product.images.gallery && product.images.gallery.length > 1 && (
             <div className="grid grid-cols-3 gap-6">
               {product.images.gallery.map((img, idx) => (
-                <div key={idx} className="relative aspect-square rounded-xl overflow-hidden shadow-lg border border-gray-100 hover:scale-105 transition-transform duration-300">
+                <div key={idx} className="relative aspect-square rounded-xl overflow-hidden shadow-lg border border-white/10 hover:scale-105 transition-transform duration-300">
                   <Image
                     src={img}
                     alt={`${product.name} gallery ${idx + 1}`}
@@ -99,10 +99,10 @@ export default async function ProductPage({ params }: PageProps) {
         {/* Info */}
         <div className="flex flex-col">
           <div className="mb-10">
-            <span className="inline-block px-3 py-1 text-[10px] font-black tracking-[0.2em] text-blue-600 bg-blue-50 rounded mb-4 uppercase">
+            <span className="inline-block px-3 py-1 text-[10px] font-black tracking-[0.2em] text-gray-300 bg-white/10 rounded mb-4 uppercase">
               {product.category}
             </span>
-            <h1 className="text-4xl sm:text-5xl font-extrabold text-gray-900 tracking-tight leading-tight mb-4">
+            <h1 className="text-4xl sm:text-5xl font-extrabold text-gray-100 tracking-tight leading-tight mb-4">
               {product.name}
             </h1>
             <p className="text-lg text-gray-400 font-bold uppercase tracking-tight">
@@ -111,29 +111,29 @@ export default async function ProductPage({ params }: PageProps) {
           </div>
 
           <div className="mb-12">
-            <span className="text-5xl font-black text-blue-600 tracking-tighter">
+            <span className="text-5xl font-black text-gray-200 tracking-tighter">
               {product.price}€
             </span>
           </div>
 
           <div className="prose prose-sm max-w-none mb-10">
-            <h3 className="text-xs font-black border-b border-gray-100 pb-3 mb-6 uppercase tracking-widest text-gray-300">
+            <h3 className="text-xs font-black border-b border-white/10 pb-3 mb-6 uppercase tracking-widest text-gray-400">
               Description détaillée
             </h3>
-            <p className="text-gray-500 font-medium leading-[2em]">
+            <p className="text-gray-300 font-medium leading-[2em]">
               {product.description}
             </p>
           </div>
 
-          <div className="mb-12 p-8 bg-gray-50/50 rounded-2xl border border-gray-100">
+          <div className="mb-12 p-8 bg-white/20 rounded-2xl border border-white/10 backdrop-blur-sm">
             <h3 className="text-xs font-black mb-6 text-gray-400 uppercase tracking-widest">
               Fiche technique
             </h3>
             <ul className="grid grid-cols-1 sm:grid-cols-2 gap-x-12 gap-y-4">
               {product.specs && Object.entries(product.specs).map(([key, value]) => (
-                <li key={key} className="flex justify-between border-b border-gray-100/50 pb-2">
+                <li key={key} className="flex justify-between border-b border-white/10 pb-2">
                   <span className="text-[11px] font-bold text-gray-400 uppercase tracking-tight">{key.replace(/([A-Z])/g, ' $1')}</span>
-                  <span className="font-black text-gray-900 text-xs">
+                  <span className="font-black text-gray-200 text-xs">
                     {typeof value === 'boolean' ? (value ? 'OUI' : 'NON') : value}
                   </span>
                 </li>
@@ -143,7 +143,7 @@ export default async function ProductPage({ params }: PageProps) {
 
           <div className="mt-auto">
             <AddToCartButton product={product} disabled={product.stock === 0} />
-            <p className="text-center text-[10px] font-bold text-gray-300 mt-6 tracking-widest uppercase">
+            <p className="text-center text-[10px] font-bold text-gray-500 mt-6 tracking-widest uppercase">
               RÉF: {product.sku}
             </p>
           </div>
