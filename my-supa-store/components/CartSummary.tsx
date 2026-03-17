@@ -1,0 +1,40 @@
+"use client";
+
+import { useCart } from "@/context/CartContext";
+import { useState, useEffect } from "react";
+import Link from "next/link";
+
+export default function CartSummary() {
+  const { totalCount, totalPrice } = useCart();
+  const [mounted, setMounted] = useState(false);
+
+  // Prevent hydration mismatch
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  if (!mounted) return null;
+
+  return (
+    <Link 
+      href="/cart" 
+      className="relative group flex items-center space-x-2 bg-blue-50 dark:bg-blue-900/20 px-4 py-2 rounded-full border border-blue-100 dark:border-blue-800 transition-all hover:scale-105 active:scale-95 shadow-sm"
+    >
+      <div className="flex items-center justify-center">
+        <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 text-blue-600 dark:text-blue-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" />
+        </svg>
+        {totalCount > 0 && (
+          <span className="absolute -top-1 -right-1 bg-red-500 text-white text-[10px] font-black w-4 h-4 flex items-center justify-center rounded-full animate-in zoom-in duration-300">
+            {totalCount}
+          </span>
+        )}
+      </div>
+      <div className="hidden sm:block">
+        <span className="text-xs font-black text-blue-600 dark:text-blue-400 uppercase tracking-widest">
+          {totalPrice.toFixed(2)}€
+        </span>
+      </div>
+    </Link>
+  );
+}
