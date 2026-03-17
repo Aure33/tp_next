@@ -24,57 +24,63 @@ export default async function HomePage() {
   const products: Product[] = dbProducts.map(mapDbToProduct);
 
   return (
-    <div className="space-y-16 py-12">
-      {/* Hero Section */}
-      <section className="text-center bg-white/30 p-12 rounded-3xl border border-white/10 shadow-sm backdrop-blur-sm">
-        <h1 className="text-4xl font-extrabold tracking-tight sm:text-6xl bg-clip-text text-transparent bg-gradient-to-r from-gray-100 to-gray-400 mb-6 uppercase">
-          Bienvenue sur My Supa Store
+    <div className="space-y-24 py-16">
+      {/* Hero Section - Sith/Stealth Dark Aesthetic */}
+      <section className="relative text-center py-20 px-6 overflow-hidden rounded-[3rem] border border-white/5 bg-[#080808]/40 backdrop-blur-3xl shadow-2xl">
+        <div className="absolute inset-0 bg-gradient-to-b from-blue-500/5 to-transparent pointer-events-none" />
+        <h1 className="text-5xl md:text-8xl font-black tracking-tighter mb-8 bg-clip-text text-transparent bg-gradient-to-r from-white via-gray-300 to-gray-600">
+          My Supa Store
         </h1>
-        <p className="mt-4 max-w-2xl mx-auto text-3xl text-gray-300 font-script italic">
-          Des produits premium pour votre quotidien...
+        <p className="mt-4 max-w-xl mx-auto text-2xl md:text-3xl text-gray-400 font-script italic leading-relaxed opacity-80">
+          L&apos;excellence, dans son expression la plus pure...
         </p>
+        <div className="mt-12 flex justify-center space-x-6">
+          <div className="h-px w-12 bg-gradient-to-r from-transparent to-white/20 self-center" />
+          <span className="text-[10px] font-black uppercase tracking-[0.5em] text-gray-500">
+            Curated Tech
+          </span>
+          <div className="h-px w-12 bg-gradient-to-l from-transparent to-white/20 self-center" />
+        </div>
       </section>
 
-      {/* Product Grid */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-10">
+      {/* Product Grid - Dark Glassmorphism */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-12">
         {products.map((product) => (
           <Link
             key={product.id}
             href={`/products/${product.slug}`}
-            className="group flex flex-col bg-white/40 rounded-2xl overflow-hidden shadow-sm hover:shadow-xl border border-white/10 transition-all duration-300 transform hover:-translate-y-1 backdrop-blur-sm"
+            className="group flex flex-col bg-[#0c0c0c]/80 rounded-[2rem] overflow-hidden border border-white/[0.03] transition-all duration-700 hover:border-white/10 hover:bg-[#111111]/90 shadow-2xl hover:shadow-blue-500/5 transform hover:-translate-y-2"
           >
-            <div className="relative aspect-square w-full overflow-hidden bg-gray-100/50">
+            <div className="relative aspect-[4/5] w-full overflow-hidden bg-[#050505]">
               <Image
                 src={product.images.main}
-                alt={`Photo de ${product.name}`}
+                alt={product.name}
                 fill
                 sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-                className="object-cover group-hover:scale-105 transition-transform duration-500"
+                className="object-cover opacity-80 group-hover:opacity-100 group-hover:scale-110 transition-all duration-[1.5s] ease-out grayscale-[0.3] group-hover:grayscale-0"
               />
+              <div className="absolute inset-0 bg-gradient-to-t from-[#0c0c0c] via-transparent to-transparent opacity-60" />
+              
               {product.stock === 0 && (
-                <div className="absolute top-4 right-4 bg-red-500/80 text-white text-[10px] font-black uppercase px-2.5 py-1 rounded-md shadow-lg z-10 tracking-widest backdrop-blur-sm">
+                <div className="absolute top-6 right-6 bg-black/60 backdrop-blur-md text-red-500 text-[9px] font-black uppercase px-3 py-1.5 rounded-full border border-red-500/20 shadow-xl z-10 tracking-[0.2em]">
                   Épuisé
                 </div>
               )}
             </div>
-            <div className="p-6 flex flex-col flex-grow">
+            
+            <div className="p-8 flex flex-col flex-grow">
               <div className="flex justify-between items-start mb-4">
-                <h2 className="text-lg font-bold text-gray-100 group-hover:text-gray-300 transition-colors">
+                <h2 className="text-xl font-bold text-white tracking-tight group-hover:text-blue-400 transition-colors duration-300">
                   {product.name}
                 </h2>
-                <span className="text-lg font-black text-gray-300 ml-2">
+              </div>
+              
+              <div className="flex items-center justify-between mt-auto">
+                <span className="text-sm font-black text-gray-300">
                   {product.price}€
                 </span>
-              </div>
-              <p className="text-sm text-gray-400 font-medium line-clamp-2 mb-6 flex-grow uppercase tracking-tight">
-                {product.description}
-              </p>
-              <div className="flex items-center justify-between mt-auto pt-6 border-t border-white/10">
-                <span className="text-[10px] font-black text-gray-400 bg-white/10 px-2 py-1 rounded uppercase tracking-[0.1em]">
+                <span className="text-[9px] font-black text-gray-500 uppercase tracking-widest border border-white/5 px-2 py-1 rounded">
                   {product.category}
-                </span>
-                <span className="text-sm font-bold text-gray-300 group-hover:text-gray-200 transition-colors uppercase tracking-tight">
-                  Détails &rarr;
                 </span>
               </div>
             </div>

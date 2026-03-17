@@ -2,30 +2,30 @@ import Link from 'next/link';
 
 export default function Footer() {
   return (
-    <footer className="bg-white dark:bg-[#0a0a0a] border-t border-gray-200 dark:border-gray-800 transition-colors duration-300 py-8 mt-auto">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col md:flex-row justify-between items-center">
-        <div className="mb-4 md:mb-0">
-          <span className="text-xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-blue-500 to-purple-600">
+    <footer className="bg-black/40 border-t border-white/[0.05] transition-all duration-500 py-16 mt-24 backdrop-blur-3xl">
+      <div className="max-w-7xl mx-auto px-6 flex flex-col md:flex-row justify-between items-center">
+        <div className="mb-8 md:mb-0 text-center md:text-left">
+          <span className="text-2xl font-script bg-clip-text text-transparent bg-gradient-to-r from-white via-gray-300 to-gray-600">
             My Supa Store
           </span>
-          <p className="text-sm text-gray-500 dark:text-gray-400 mt-2">
-            La meilleure boutique Supabase de l&apos;univers.
+          <p className="text-[10px] font-black uppercase tracking-widest text-gray-600 mt-3 opacity-50">
+            Beyond the ordinary.
           </p>
         </div>
         
-        <div className="flex space-x-6">
-          <Link href="/terms" className="text-gray-400 hover:text-gray-500 dark:hover:text-gray-300 transition-colors">
-            Conditions
+        <div className="flex space-x-12">
+          <Link href="/" className="text-[10px] font-black uppercase tracking-widest text-gray-500 hover:text-white transition-all">
+            Legal
           </Link>
-          <Link href="/privacy" className="text-gray-400 hover:text-gray-500 dark:hover:text-gray-300 transition-colors">
-            Confidentialité
+          <Link href="/" className="text-[10px] font-black uppercase tracking-widest text-gray-500 hover:text-white transition-all">
+            Privacy
           </Link>
         </div>
       </div>
       
-      <div className="mt-8 border-t border-gray-100 dark:border-gray-800/60 pt-8 flex items-center justify-center">
-        <p className="text-sm text-gray-400 dark:text-gray-500">
-          &copy; {new Date().getFullYear()} My Supa Store. Tous droits réservés.
+      <div className="mt-16 flex items-center justify-center">
+        <p className="text-[9px] font-black uppercase tracking-[0.5em] text-gray-700 opacity-30">
+          &copy; {new Date().getFullYear()} Supa Tech Industries.
         </p>
       </div>
     </footer>

@@ -3,32 +3,26 @@ import CartSummary from './CartSummary';
 
 export default function Navigation() {
   return (
-    <nav className="sticky top-0 z-50 w-full backdrop-blur-md bg-white/75 dark:bg-[#0a0a0a]/75 border-b border-gray-200 dark:border-gray-800 transition-colors duration-300">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex justify-between items-center h-16">
-          <div className="flex-shrink-0 flex items-center space-x-4">
-            <Link href="/" className="text-2xl font-script bg-clip-text text-transparent bg-gradient-to-r from-gray-200 to-gray-400 hover:opacity-80 transition-opacity">
+    <nav className="sticky top-0 z-50 w-full backdrop-blur-3xl bg-black/40 border-b border-white/[0.05] transition-all duration-500">
+      <div className="max-w-7xl mx-auto px-6">
+        <div className="flex justify-between items-center h-20">
+          <div className="flex-shrink-0 flex items-center space-x-6">
+            <Link href="/" className="text-3xl font-script bg-clip-text text-transparent bg-gradient-to-r from-white via-gray-300 to-gray-600 hover:opacity-70 transition-opacity">
               My Supa Store
             </Link>
           </div>
-          <div className="flex items-center space-x-4">
+          <div className="flex items-center space-x-8">
             <CartSummary />
-            <div className="hidden sm:ml-6 sm:flex sm:space-x-8">
+            <div className="hidden sm:flex sm:space-x-10">
               <Link
                 href="/"
-                className="inline-flex items-center px-1 pt-1 border-b-2 border-transparent text-sm font-medium text-gray-500 hover:text-gray-900 hover:border-gray-300 dark:text-gray-400 dark:hover:text-white dark:hover:border-gray-700 transition-colors"
+                className="text-[10px] font-black tracking-[0.2em] text-gray-500 hover:text-white transition-all uppercase"
               >
-                Accueil
-              </Link>
-              <Link
-                href="/products"
-                className="inline-flex items-center px-1 pt-1 border-b-2 border-transparent text-sm font-medium text-gray-500 hover:text-gray-900 hover:border-gray-300 dark:text-gray-400 dark:hover:text-white dark:hover:border-gray-700 transition-colors"
-              >
-                Produits
+                Catalog
               </Link>
               <Link
                 href="/admin/products"
-                className="inline-flex items-center px-1 pt-1 border-b-2 border-transparent text-sm font-medium text-gray-400 hover:text-blue-600 hover:border-blue-600 transition-colors uppercase tracking-[0.1em]"
+                className="text-[10px] font-black tracking-[0.2em] text-gray-500 hover:text-blue-500 transition-all uppercase"
               >
                 Admin
               </Link>
