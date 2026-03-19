@@ -1,7 +1,8 @@
 import { Suspense, cache } from 'react';
 import ProductContent from '@/components/ProductContent';
 import SimilarProducts from '@/components/SimilarProducts';
-import SponsoredProductsServer from '@/components/SponsoredProductsServer';
+import SponsoredSection from '@/components/SponsoredSection';
+import { fetchMockShopProducts } from '@/utils/graphql';
 import { Product } from '@/domains/catalog/types';
 import { prisma } from '@/utils/prisma';
 import Link from 'next/link';
@@ -78,6 +79,7 @@ export default async function ProductPage({ params }: PageProps) {
   const resolvedParams = await params;
   const product = await getProduct(resolvedParams.slug);
   const productId = await getProductId(resolvedParams.slug);
+  const sponsoredProducts = await fetchMockShopProducts(4);
 
   if (!product) notFound();
 
@@ -127,7 +129,7 @@ export default async function ProductPage({ params }: PageProps) {
           </div>
         }
       >
-        <SponsoredProductsServer />
+        <SponsoredSection initialProducts={sponsoredProducts} />
       </Suspense>
     </article>
   );

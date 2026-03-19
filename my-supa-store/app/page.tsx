@@ -4,7 +4,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { Suspense } from "react";
 import SponsoredSection from "@/components/SponsoredSection";
-import { getSponsoredProducts } from "@/utils/graphql";
+import { fetchMockShopProducts } from "@/utils/graphql";
 
 function mapDbToProduct(dbProduct: any): Product {
   return {
@@ -40,7 +40,7 @@ export default async function HomePage() {
   });
   
   const products: Product[] = dbProducts.map(mapDbToProduct);
-  const sponsoredProducts = await getSponsoredProducts();
+  const sponsoredProducts = await fetchMockShopProducts(4);
 
   return (
     <div className="space-y-24 py-16">

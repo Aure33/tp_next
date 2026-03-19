@@ -1,104 +1,132 @@
-import { SponsoredProduct } from '@/types/sponsored';
+import type { SponsoredProduct } from "@/domains/catalog/entity/sponsoredProduct";
 
-const MOCK_SPONSORED_PRODUCTS: SponsoredProduct[] = [
-  {
-    id: 'gid://shopify/Product/1',
-    title: 'Casque Bluetooth Premium',
-    handle: 'casque-bluetooth-premium',
-    descriptionHtml: '<p>Casque sans fil avec suppression de bruit active. Autonomie de 30 heures.</p>',
-    onlineStoreUrl: 'https://example-shop.com/products/casque-bluetooth-premium',
-    tags: ['audio', 'bluetooth', 'premium'],
-    priceRange: {
-      minVariantPrice: { amount: '149.99', currencyCode: 'EUR' },
-    },
-    images: {
-      edges: [
-        { node: { url: 'https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=600', altText: 'Casque Premium' } },
-        { node: { url: 'https://images.unsplash.com/photo-1583394838336-acd977736f90?w=600', altText: 'Casque Premium Vue 2' } },
-      ],
-    },
-  },
-  {
-    id: 'gid://shopify/Product/2',
-    title: 'Montre Connectée Sport',
-    handle: 'montre-connectee-sport',
-    descriptionHtml: '<p>Suivi GPS, cardio, oxygène sanguin. Étanche 50m.</p>',
-    onlineStoreUrl: 'https://example-shop.com/products/montre-connectee-sport',
-    tags: ['wearable', 'fitness', 'gps'],
-    priceRange: {
-      minVariantPrice: { amount: '299.99', currencyCode: 'EUR' },
-    },
-    images: {
-      edges: [
-        { node: { url: 'https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=600', altText: 'Montre Connectée' } },
-      ],
-    },
-  },
-  {
-    id: 'gid://shopify/Product/3',
-    title: 'Enceinte Portable Waterproof',
-    handle: 'enceint-portable-waterproof',
-    descriptionHtml: '<p>Son 360°, waterproof IPX7, 24h d\'autonomie.</p>',
-    onlineStoreUrl: 'https://example-shop.com/products/enceint-portable-waterproof',
-    tags: ['audio', 'portable', 'waterproof'],
-    priceRange: {
-      minVariantPrice: { amount: '89.99', currencyCode: 'EUR' },
-    },
-    images: {
-      edges: [
-        { node: { url: 'https://images.unsplash.com/photo-1608043152269-423dbba4e7e1?w=600', altText: 'Enceinte' } },
-      ],
-    },
-  },
-  {
-    id: 'gid://shopify/Product/4',
-    title: 'Drone Mini 4K',
-    handle: 'drone-mini-4k',
-    descriptionHtml: '<p>Caméra 4K, vol 25 min, pliable et ultra léger.</p>',
-    onlineStoreUrl: 'https://example-shop.com/products/drone-mini-4k',
-    tags: ['drone', 'camera', '4k'],
-    priceRange: {
-      minVariantPrice: { amount: '449.99', currencyCode: 'EUR' },
-    },
-    images: {
-      edges: [
-        { node: { url: 'https://images.unsplash.com/photo-1473968512647-3e447244af8f?w=600', altText: 'Drone' } },
-      ],
-    },
-  },
-];
+const MOCK_SHOP_GRAPHQL = "https://mock.shop/api/2024-01/graphql.json";
+const MOCK_SHOP_PRODUCT_BASE = "https://mock.shop/products";
 
-let fetchCount = 0;
-let lastFetchTime = 0;
+const PRODUCTS_QUERY = `
+  query GetProducts($first: Int!) {
+    products(first: $first) {
+      nodes {
+        id
+        title
+        handle
+        description
+        featuredImage {
+          url
+        }
+        priceRange {
+          minVariantPrice {
+            amount
+            currencyCode
+          }
+        }
+      }
+    }
+  }
+`;
 
-export async function getSponsoredProducts(): Promise<SponsoredProduct[]> {
-  const start = performance.now();
-  
-  fetchCount++;
-  lastFetchTime = Date.now();
-  
-  console.log(`[mockShop] fetch products (attempt #${fetchCount}) ${(performance.now() - start).toFixed(0)}ms`);
-  
-  return MOCK_SPONSORED_PRODUCTS;
-}
+const PRODUCT_BY_HANDLE_QUERY = `
+  query GetProductByHandle($handle: String!) {
+    productByHandle(handle: $handle) {
+      id
+      title
+      handle
+      description
+      featuredImage {
+        url
+      }
+      priceRange {
+        minVariantPrice {
+          amount
+          currencyCode
+        }
+      }
+    }
+  }
+`;
 
-export function getCacheInfo() {
+type MockShopProductNode = {
+  id: string;
+  title: string;
+  handle: string;
+  description: string;
+  featuredImage: { url: string } | null;
+  priceRange: {
+    minVariantPrice: {
+      amount: string;
+      currencyCode: string;
+    };
+  };
+};
+
+type MockShopResponse = {
+  data?: {
+    products?: {
+      nodes: MockShopProductNode[];
+    };
+  };
+  errors?: Array<{ message: string }>;
+};
+
+function mapNodeToSponsoredProduct(node: MockShopProductNode): SponsoredProduct {
+  const price = node.priceRange?.minVariantPrice;
   return {
-    fetchCount,
-    lastFetchTime,
+    id: node.id,
+    handle: node.handle,
+    name: node.title,
+    description: node.description ?? "",
+    price: price ? parseFloat(price.amount) : 0,
+    currency: price?.currencyCode ?? "USD",
+    imageUrl: node.featuredImage?.url ?? "",
+    url: `${MOCK_SHOP_PRODUCT_BASE}/${node.handle}`,
   };
 }
 
-export async function getSponsoredProduct(handle: string): Promise<SponsoredProduct | null> {
-  const start = performance.now();
-  
-  await new Promise((resolve) => setTimeout(resolve, 200));
-  
-  console.log(`[mockShop] fetch product ${handle} (${(performance.now() - start).toFixed(0)}ms)`);
-  
-  return MOCK_SPONSORED_PRODUCTS.find(p => p.handle === handle) || null;
+export async function fetchMockShopProducts(limit: number = 6): Promise<SponsoredProduct[]> {
+  const res = await fetch(MOCK_SHOP_GRAPHQL, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({
+      query: PRODUCTS_QUERY,
+      variables: { first: limit },
+    }),
+  });
+
+  if (!res.ok) {
+    throw new Error(`Mock.shop API error: ${res.status}`);
+  }
+
+  const json = (await res.json()) as MockShopResponse;
+  if (json.errors?.length) {
+    throw new Error(json.errors.map((e) => e.message).join("; "));
+  }
+
+  const nodes = json.data?.products?.nodes ?? [];
+  return nodes.map(mapNodeToSponsoredProduct);
+}
+
+type ProductByHandleResponse = {
+  data?: { productByHandle: MockShopProductNode | null };
+  errors?: Array<{ message: string }>;
+};
+
+export async function fetchMockShopProductByHandle(handle: string): Promise<SponsoredProduct | null> {
+  const res = await fetch(MOCK_SHOP_GRAPHQL, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({
+      query: PRODUCT_BY_HANDLE_QUERY,
+      variables: { handle },
+    }),
+  });
+
+  if (!res.ok) return null;
+  const json = (await res.json()) as ProductByHandleResponse;
+  if (json.errors?.length || !json.data?.productByHandle) return null;
+  return mapNodeToSponsoredProduct(json.data.productByHandle);
 }
 
 export async function getAllSponsoredHandles(): Promise<string[]> {
-  return MOCK_SPONSORED_PRODUCTS.map(p => p.handle);
+  const products = await fetchMockShopProducts(20);
+  return products.map(p => p.handle);
 }

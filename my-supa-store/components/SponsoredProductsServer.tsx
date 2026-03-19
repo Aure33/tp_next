@@ -1,7 +1,11 @@
-import { getSponsoredProducts } from '@/utils/graphql';
+import { fetchMockShopProducts } from '@/utils/graphql';
 import SponsoredProducts from './SponsoredProducts';
 
-export default async function SponsoredProductsServer() {
-  const products = await getSponsoredProducts();
+async function SponsoredProductsList() {
+  const products = await fetchMockShopProducts(4);
   return <SponsoredProducts products={products} />;
+}
+
+export default function SponsoredProductsServerWithRefresh() {
+  return <SponsoredProductsList />;
 }

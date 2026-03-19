@@ -4,7 +4,7 @@ import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import Image from 'next/image';
 import Link from 'next/link';
-import { SponsoredProduct } from '@/types/sponsored';
+import type { SponsoredProduct } from '@/domains/catalog/entity/sponsoredProduct';
 
 interface SponsoredSectionProps {
   initialProducts: SponsoredProduct[];
@@ -62,10 +62,10 @@ export default function SponsoredSection({ initialProducts }: SponsoredSectionPr
               className="group block"
             >
               <div className="relative aspect-square rounded-2xl overflow-hidden bg-[#0c0c0c] mb-4 border border-amber-500/10 group-hover:border-amber-500/30 transition-colors">
-                {product.images.edges[0] && (
+                {product.imageUrl && (
                   <Image
-                    src={product.images.edges[0].node.url}
-                    alt={product.images.edges[0].node.altText || product.title}
+                    src={product.imageUrl}
+                    alt={product.name}
                     fill
                     sizes="(max-width: 768px) 50vw, 25vw"
                     className="object-cover opacity-80 group-hover:opacity-100 group-hover:scale-105 transition-all duration-500"
@@ -76,12 +76,12 @@ export default function SponsoredSection({ initialProducts }: SponsoredSectionPr
                 </div>
               </div>
               <p className="text-sm font-bold text-white group-hover:text-amber-400 transition-colors">
-                {product.title}
+                {product.name}
               </p>
               <p className="text-sm font-black text-amber-400 mt-1">
-                {parseFloat(product.priceRange.minVariantPrice.amount).toFixed(2)}€ 
+                {product.price.toFixed(2)}€ 
                 <span className="text-gray-500 text-xs ml-1">
-                  {product.priceRange.minVariantPrice.currencyCode}
+                  {product.currency}
                 </span>
               </p>
             </Link>
