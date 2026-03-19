@@ -2,8 +2,11 @@ import { Product } from "@/domains/catalog/types";
 import { prisma } from "@/utils/prisma";
 import Image from "next/image";
 import Link from "next/link";
+import { Suspense } from "react";
+import SponsoredProducts from "@/components/SponsoredProducts";
+import { gql } from "@/utils/graphql";
+import { SponsoredProduct, Collection } from "@/types/sponsored";
 
-// Helper to project database product to domain model
 function mapDbToProduct(dbProduct: any): Product {
   return {
     ...dbProduct,
@@ -13,19 +16,78 @@ function mapDbToProduct(dbProduct: any): Product {
   };
 }
 
+async function getSponsoredProducts(): Promise<SponsoredProduct[]> {
+  const COLLECTION_QUERY = `
+    query GetCollection($handle: String!) {
+      collection(handle: $handle) {
+        products(first: 4) {
+          edges {
+            node {
+              id
+              title
+              handle
+              descriptionHtml
+              tags
+              priceRange {
+                minVariantPrice {
+                  amount
+                  currencyCode
+                }
+              }
+              images(first: 2) {
+                edges {
+                  node {
+                    url
+                    altText
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  `;
+
+  try {
+    const data = await gql<{ collection: Collection }>(COLLECTION_QUERY, {
+      handle: 'collection-with-products',
+    });
+    return data.collection?.products?.edges?.map((e) => e.node) || [];
+  } catch {
+    return [];
+  }
+}
+
 export const dynamic = 'force-dynamic';
 
+function SponsoredSectionSkeleton() {
+  return (
+    <div className="mt-24">
+      <div className="h-6 w-32 bg-gray-800/50 rounded animate-pulse mb-12" />
+      <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
+        {[1, 2, 3, 4].map((i) => (
+          <div key={i} className="space-y-4">
+            <div className="aspect-square bg-gray-800/50 rounded-2xl animate-pulse" />
+            <div className="h-4 w-3/4 bg-gray-800/50 rounded animate-pulse" />
+            <div className="h-4 w-1/2 bg-gray-800/50 rounded animate-pulse" />
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
+
 export default async function HomePage() {
-  // Fetch all products via Prisma RSC
   const dbProducts = await prisma.product.findMany({
     orderBy: { createdAt: "desc" },
   });
   
   const products: Product[] = dbProducts.map(mapDbToProduct);
+  const sponsoredProducts = await getSponsoredProducts();
 
   return (
     <div className="space-y-24 py-16">
-      {/* Hero Section - Sith/Stealth Dark Aesthetic */}
       <section className="relative text-center py-20 px-6 overflow-hidden rounded-[3rem] border border-white/5 bg-[#080808]/40 backdrop-blur-3xl shadow-2xl">
         <div className="absolute inset-0 bg-gradient-to-b from-blue-500/5 to-transparent pointer-events-none" />
         <h1 className="text-5xl md:text-8xl font-black tracking-tighter mb-8 bg-clip-text text-transparent bg-gradient-to-r from-white via-gray-300 to-gray-600">
@@ -43,7 +105,10 @@ export default async function HomePage() {
         </div>
       </section>
 
-      {/* Product Grid - Dark Glassmorphism */}
+      <Suspense fallback={<SponsoredSectionSkeleton />}>
+        <SponsoredProducts products={sponsoredProducts} />
+      </Suspense>
+
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-12">
         {products.map((product) => (
           <Link
