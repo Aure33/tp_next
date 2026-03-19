@@ -1,19 +1,32 @@
-"use client";
+import Link from 'next/link';
+import { prisma } from '@/utils/prisma';
+import { cookies } from 'next/headers';
 
-import { useCart } from "@/context/CartContext";
-import { useState, useEffect } from "react";
-import Link from "next/link";
+async function getCartData() {
+  const cookieStore = await cookies();
+  const sessionId = cookieStore.get('cart_session_id')?.value;
 
-export default function CartSummary() {
-  const { totalCount, totalPrice } = useCart();
-  const [mounted, setMounted] = useState(false);
+  if (!sessionId) {
+    return { totalCount: 0, totalPrice: 0 };
+  }
 
-  // Prevent hydration mismatch
-  useEffect(() => {
-    setMounted(true);
-  }, []);
+  const cart = await prisma.cart.findUnique({
+    where: { sessionId },
+    include: { items: true },
+  });
 
-  if (!mounted) return null;
+  if (!cart) {
+    return { totalCount: 0, totalPrice: 0 };
+  }
+
+  const totalCount = cart.items.reduce((sum: number, item: { quantity: number }) => sum + item.quantity, 0);
+  const totalPrice = cart.items.reduce((sum: number, item: { price: number; quantity: number }) => sum + item.price * item.quantity, 0);
+
+  return { totalCount, totalPrice };
+}
+
+export default async function CartSummary() {
+  const { totalCount, totalPrice } = await getCartData();
 
   return (
     <Link 

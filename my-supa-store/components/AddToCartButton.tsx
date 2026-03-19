@@ -1,8 +1,8 @@
-"use client";
+'use client';
 
-import { useCart } from "@/context/CartContext";
-import { Product } from "@/domains/catalog/types";
-import { useState } from "react";
+import { Product } from '@/domains/catalog/types';
+import { useState } from 'react';
+import { useRouter } from 'next/navigation';
 
 export default function AddToCartButton({ 
   product, 
@@ -11,12 +11,24 @@ export default function AddToCartButton({
   product: Product, 
   disabled: boolean 
 }) {
-  const { addItem } = useCart();
   const [adding, setAdding] = useState(false);
+  const router = useRouter();
 
-  const handleAdd = () => {
+  const handleAdd = async () => {
     setAdding(true);
-    addItem(product);
+    
+    await fetch('/api/cart', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        productId: product.id,
+        name: product.name,
+        price: product.price,
+        currency: product.currency,
+      }),
+    });
+
+    router.refresh();
     setTimeout(() => setAdding(false), 800);
   };
 
