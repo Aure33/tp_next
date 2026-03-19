@@ -1,72 +1,10 @@
 import { notFound } from 'next/navigation';
 import Image from 'next/image';
 import Link from 'next/link';
-import { gql } from '@/utils/graphql';
-import { SponsoredProduct, Collection } from '@/types/sponsored';
-
-const PRODUCT_QUERY = `
-  query GetProduct($handle: String!) {
-    product(handle: $handle) {
-      id
-      title
-      handle
-      descriptionHtml
-      tags
-      priceRange {
-        minVariantPrice {
-          amount
-          currencyCode
-        }
-      }
-      images(first: 5) {
-        edges {
-          node {
-            url
-            altText
-          }
-        }
-      }
-    }
-  }
-`;
-
-const COLLECTION_QUERY = `
-  query GetCollection($handle: String!) {
-    collection(handle: $handle) {
-      products(first: 20) {
-        edges {
-          node {
-            id
-            handle
-          }
-        }
-      }
-    }
-  }
-`;
+import { getSponsoredProduct, getAllSponsoredHandles } from '@/utils/graphql';
 
 interface PageProps {
   params: Promise<{ handle: string }>;
-}
-
-async function getProduct(handle: string): Promise<SponsoredProduct | null> {
-  try {
-    const data = await gql<{ product: SponsoredProduct | null }>(PRODUCT_QUERY, { handle });
-    return data.product;
-  } catch {
-    return null;
-  }
-}
-
-async function getAllSponsoredHandles(): Promise<string[]> {
-  try {
-    const data = await gql<{ collection: Collection }>(COLLECTION_QUERY, {
-      handle: 'collection-with-products',
-    });
-    return data.collection?.products?.edges?.map((e) => e.node.handle) || [];
-  } catch {
-    return [];
-  }
 }
 
 export async function generateStaticParams() {
@@ -76,7 +14,7 @@ export async function generateStaticParams() {
 
 export async function generateMetadata({ params }: PageProps) {
   const { handle } = await params;
-  const product = await getProduct(handle);
+  const product = await getSponsoredProduct(handle);
   
   if (!product) return { title: 'Produit non trouvé' };
 
@@ -88,7 +26,7 @@ export async function generateMetadata({ params }: PageProps) {
 
 export default async function SponsoredProductPage({ params }: PageProps) {
   const { handle } = await params;
-  const product = await getProduct(handle);
+  const product = await getSponsoredProduct(handle);
 
   if (!product) notFound();
 

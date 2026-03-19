@@ -68,33 +68,39 @@ const MOCK_SPONSORED_PRODUCTS: SponsoredProduct[] = [
   },
 ];
 
-export async function gql<T>(query: string, variables?: Record<string, unknown>): Promise<T> {
-  await new Promise((resolve) => setTimeout(resolve, 500));
+let fetchCount = 0;
+let lastFetchTime = 0;
 
-  const collectionQuery = query.includes('collection');
-  const productQuery = query.includes('product(handle');
+export async function getSponsoredProducts(): Promise<SponsoredProduct[]> {
+  const start = performance.now();
+  
+  await new Promise((resolve) => setTimeout(resolve, 300));
+  
+  fetchCount++;
+  lastFetchTime = Date.now();
+  
+  console.log(`[mockShop] fetch products (attempt #${fetchCount}) ${(performance.now() - start).toFixed(0)}ms`);
+  
+  return MOCK_SPONSORED_PRODUCTS;
+}
 
-  if (collectionQuery && query.includes('products(first')) {
-    const data = {
-      collection: {
-        id: 'gid://shopify/Collection/1',
-        title: 'Sponsored Products',
-        description: 'Produits sponsorisés',
-        products: {
-          edges: MOCK_SPONSORED_PRODUCTS.map((p) => ({ node: p })),
-        },
-      },
-    };
-    return data as T;
-  }
+export function getCacheInfo() {
+  return {
+    fetchCount,
+    lastFetchTime,
+  };
+}
 
-  if (productQuery && variables?.handle) {
-    const product = MOCK_SPONSORED_PRODUCTS.find((p) => p.handle === variables.handle);
-    if (product) {
-      return { product } as T;
-    }
-    return { product: null } as T;
-  }
+export async function getSponsoredProduct(handle: string): Promise<SponsoredProduct | null> {
+  const start = performance.now();
+  
+  await new Promise((resolve) => setTimeout(resolve, 200));
+  
+  console.log(`[mockShop] fetch product ${handle} (${(performance.now() - start).toFixed(0)}ms)`);
+  
+  return MOCK_SPONSORED_PRODUCTS.find(p => p.handle === handle) || null;
+}
 
-  return {} as T;
+export async function getAllSponsoredHandles(): Promise<string[]> {
+  return MOCK_SPONSORED_PRODUCTS.map(p => p.handle);
 }

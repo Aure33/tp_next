@@ -1,6 +1,7 @@
 import Link from 'next/link';
 import Image from 'next/image';
 import { SponsoredProduct } from '@/types/sponsored';
+import RefreshButton from './RefreshButton';
 
 interface SponsoredProductsProps {
   products: SponsoredProduct[];
@@ -15,6 +16,7 @@ export default function SponsoredProducts({ products }: SponsoredProductsProps) 
         <span className="text-[10px] font-black uppercase tracking-[0.4em] text-amber-500 bg-amber-500/10 px-4 py-2 rounded-full border border-amber-500/20">
           Sponsorisé
         </span>
+        <RefreshButton />
       </div>
       
       <div className="grid grid-cols-2 md:grid-cols-4 gap-6">

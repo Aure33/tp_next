@@ -4,8 +4,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { Suspense } from "react";
 import SponsoredProducts from "@/components/SponsoredProducts";
-import { gql } from "@/utils/graphql";
-import { SponsoredProduct, Collection } from "@/types/sponsored";
+import { getSponsoredProducts } from "@/utils/graphql";
 
 function mapDbToProduct(dbProduct: any): Product {
   return {
@@ -14,49 +13,6 @@ function mapDbToProduct(dbProduct: any): Product {
     specs: JSON.parse(dbProduct.specs),
     similar: JSON.parse(dbProduct.similar),
   };
-}
-
-async function getSponsoredProducts(): Promise<SponsoredProduct[]> {
-  const COLLECTION_QUERY = `
-    query GetCollection($handle: String!) {
-      collection(handle: $handle) {
-        products(first: 4) {
-          edges {
-            node {
-              id
-              title
-              handle
-              descriptionHtml
-              tags
-              priceRange {
-                minVariantPrice {
-                  amount
-                  currencyCode
-                }
-              }
-              images(first: 2) {
-                edges {
-                  node {
-                    url
-                    altText
-                  }
-                }
-              }
-            }
-          }
-        }
-      }
-    }
-  `;
-
-  try {
-    const data = await gql<{ collection: Collection }>(COLLECTION_QUERY, {
-      handle: 'collection-with-products',
-    });
-    return data.collection?.products?.edges?.map((e) => e.node) || [];
-  } catch {
-    return [];
-  }
 }
 
 export const dynamic = 'force-dynamic';
