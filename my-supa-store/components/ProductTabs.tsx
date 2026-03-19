@@ -1,9 +1,12 @@
 'use client';
 
 import Link from 'next/link';
+import { useSearchParams } from 'next/navigation';
 import { Product } from '@/domains/catalog/types';
 
-export default function ProductTabs({ product, activeTab }: { product: Product; activeTab: string }) {
+export default function ProductTabs({ product }: { product: Product }) {
+  const searchParams = useSearchParams();
+  const activeTab = searchParams.get('tab') || 'description';
   return (
     <div className="mb-16">
       <div className="flex gap-1 mb-8">

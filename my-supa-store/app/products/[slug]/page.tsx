@@ -9,7 +9,6 @@ import { Product } from "@/domains/catalog/types";
 // Static props replacement props type
 type PageProps = {
   params: Promise<{ slug: string }>;
-  searchParams: Promise<{ tab?: string }>;
 };
 
 // Helper (DRY: in a real app, this goes to a repository layer)
@@ -43,9 +42,8 @@ export async function generateMetadata({ params }: PageProps) {
   };
 }
 
-export default async function ProductPage({ params, searchParams }: PageProps) {
+export default async function ProductPage({ params }: PageProps) {
   const resolvedParams = await params;
-  const resolvedSearchParams = await searchParams;
   const dbProduct = await prisma.product.findUnique({
     where: { slug: resolvedParams.slug },
   });
@@ -53,7 +51,6 @@ export default async function ProductPage({ params, searchParams }: PageProps) {
   if (!dbProduct) notFound();
   
   const product: Product = mapDbToProduct(dbProduct);
-  const activeTab = resolvedSearchParams?.tab || 'description';
 
   return (
     <article className="max-w-6xl mx-auto px-6 py-16 lg:py-24 bg-[#0a0a0a]/60 rounded-[3rem] border border-white/[0.05] shadow-[0_35px_60px_-15px_rgba(0,0,0,0.3)] mt-12 backdrop-blur-3xl">
@@ -121,7 +118,7 @@ export default async function ProductPage({ params, searchParams }: PageProps) {
             </span>
           </div>
 
-          <ProductTabs product={product} activeTab={activeTab} />
+          <ProductTabs product={product} />
 
           <div className="mt-auto pt-8">
             <AddToCartButton product={product} disabled={product.stock === 0} />
