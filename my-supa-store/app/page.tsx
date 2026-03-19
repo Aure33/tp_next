@@ -3,7 +3,7 @@ import { prisma } from "@/utils/prisma";
 import Image from "next/image";
 import Link from "next/link";
 import { Suspense } from "react";
-import SponsoredProducts from "@/components/SponsoredProducts";
+import SponsoredSection from "@/components/SponsoredSection";
 import { getSponsoredProducts } from "@/utils/graphql";
 
 function mapDbToProduct(dbProduct: any): Product {
@@ -62,7 +62,7 @@ export default async function HomePage() {
       </section>
 
       <Suspense fallback={<SponsoredSectionSkeleton />}>
-        <SponsoredProducts products={sponsoredProducts} />
+        <SponsoredSection initialProducts={sponsoredProducts} />
       </Suspense>
 
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-12">

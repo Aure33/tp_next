@@ -1,7 +1,7 @@
 import { getSponsoredProducts } from '@/utils/graphql';
-import SponsoredProducts from '@/components/SponsoredProducts';
+import SponsoredSection from '@/components/SponsoredSection';
 
 export default async function SponsoredSlot() {
   const products = await getSponsoredProducts();
-  return <SponsoredProducts products={products} />;
+  return <SponsoredSection initialProducts={products} />;
 }
