@@ -1,12 +1,14 @@
 import AddToCartButton from "@/components/AddToCartButton";
 import ProductTabs from "@/components/ProductTabs";
-import { notFound } from "next/navigation";
+import { Product } from "@/domains/catalog/types";
+import { prisma } from "@/utils/prisma";
 import Image from "next/image";
 import Link from "next/link";
-import { prisma } from "@/utils/prisma";
-import { Product } from "@/domains/catalog/types";
+import { notFound } from "next/navigation";
 
-export const revalidate = 60;
+export const revalidate = 0;
+// export const revalidate = 60;
+export const dynamic = 'force-dynamic';
 
 // Static props replacement props type
 type PageProps = {
