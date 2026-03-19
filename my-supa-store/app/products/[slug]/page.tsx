@@ -6,6 +6,8 @@ import Link from "next/link";
 import { prisma } from "@/utils/prisma";
 import { Product } from "@/domains/catalog/types";
 
+export const revalidate = 60;
+
 // Static props replacement props type
 type PageProps = {
   params: Promise<{ slug: string }>;
