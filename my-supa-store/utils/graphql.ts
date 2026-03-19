@@ -74,8 +74,6 @@ let lastFetchTime = 0;
 export async function getSponsoredProducts(): Promise<SponsoredProduct[]> {
   const start = performance.now();
   
-  await new Promise((resolve) => setTimeout(resolve, 300));
-  
   fetchCount++;
   lastFetchTime = Date.now();
   

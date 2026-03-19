@@ -1,6 +1,11 @@
 import Link from 'next/link';
+import { cache } from 'react';
+
+const getYear = cache(() => new Date().getFullYear());
 
 export default function Footer() {
+  const year = getYear();
+
   return (
     <footer className="bg-black/40 border-t border-white/[0.05] transition-all duration-500 py-16 mt-24 backdrop-blur-3xl">
       <div className="max-w-7xl mx-auto px-6 flex flex-col md:flex-row justify-between items-center">
@@ -25,7 +30,7 @@ export default function Footer() {
       
       <div className="mt-16 flex items-center justify-center">
         <p className="text-[9px] font-black uppercase tracking-[0.5em] text-gray-700 opacity-30">
-          &copy; {new Date().getFullYear()} Supa Tech Industries.
+          &copy; {year} Supa Tech Industries.
         </p>
       </div>
     </footer>

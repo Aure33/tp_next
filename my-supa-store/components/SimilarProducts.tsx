@@ -2,11 +2,7 @@ import { prisma } from '@/utils/prisma';
 import Image from 'next/image';
 import Link from 'next/link';
 
-export const dynamic = 'force-dynamic';
-
 async function getSimilarProducts(productId: string) {
-  await new Promise((resolve) => setTimeout(resolve, 2000));
-  
   const similarProducts = await prisma.similarProduct.findMany({
     where: { productId },
     orderBy: { score: 'asc' },

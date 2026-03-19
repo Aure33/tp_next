@@ -1,7 +1,5 @@
-import { Suspense } from 'react';
 import ProductTabs from './ProductTabs';
 import AddToCartButton from './AddToCartButton';
-import SimilarProducts from './SimilarProducts';
 import { Product } from '@/domains/catalog/types';
 
 export default function ProductContent({ product }: { product: Product }) {
@@ -57,9 +55,7 @@ export default function ProductContent({ product }: { product: Product }) {
             </span>
           </div>
 
-          <Suspense fallback={<div className="h-32 bg-white/[0.02] rounded-[2rem] animate-pulse mb-16" />}>
-            <ProductTabs product={product} />
-          </Suspense>
+          <ProductTabs product={product} />
 
           <div className="mt-auto pt-8">
             <AddToCartButton product={product} disabled={product.stock === 0} />
@@ -69,25 +65,6 @@ export default function ProductContent({ product }: { product: Product }) {
           </div>
         </div>
       </div>
-
-      <Suspense
-        fallback={
-          <div className="mt-24">
-            <div className="h-6 w-32 bg-gray-800/50 rounded animate-pulse mb-12" />
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
-              {[1, 2, 3, 4].map((i) => (
-                <div key={i} className="space-y-4">
-                  <div className="aspect-square bg-gray-800/50 rounded-2xl animate-pulse" />
-                  <div className="h-3 w-16 bg-gray-800/50 rounded animate-pulse" />
-                  <div className="h-4 w-24 bg-gray-800/50 rounded animate-pulse" />
-                </div>
-              ))}
-            </div>
-          </div>
-        }
-      >
-        <SimilarProducts productId={product.id} />
-      </Suspense>
     </>
   );
 }
