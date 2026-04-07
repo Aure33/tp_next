@@ -1,12 +1,9 @@
-import NextAuth from "next-auth"
-import { PrismaAdapter } from "@auth/prisma-adapter"
-import { prisma } from "@/utils/prisma"
+import NextAuth, { signIn, signOut, auth } from "next-auth"
 import Credentials from "next-auth/providers/credentials"
 import bcrypt from "bcryptjs"
-import { JWT } from "next-auth/jwt"
+import { prisma } from "@/utils/prisma"
 
-export const { handlers, auth, signIn, signOut } = NextAuth({
-  adapter: PrismaAdapter(prisma),
+const handler = NextAuth({
   providers: [
     Credentials({
       name: "credentials",
@@ -52,17 +49,20 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
     signIn: "/auth/login",
   },
   callbacks: {
-    async jwt({ token, user }: { token: JWT; user?: any }) {
+    async jwt({ token, user }: { token: any; user?: any }) {
       if (user) {
         token.role = user.role
       }
       return token
     },
-    async session({ session, token }: { session: any; token: JWT }) {
+    async session({ session, token }: { session: any; token: any }) {
       if (session.user) {
-        session.user.role = token.role as string
+        session.user.role = token.role
       }
       return session
     },
   },
 })
+
+export default handler
+export { auth, signIn, signOut }

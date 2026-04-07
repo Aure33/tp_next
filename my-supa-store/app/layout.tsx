@@ -1,6 +1,5 @@
 import Footer from "@/components/Footer";
 import Navigation from "@/components/Navigation";
-import { AuthProvider } from "@/components/AuthProvider";
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import localFont from "next/font/local";
@@ -37,13 +36,11 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} ${dancingScript.variable} antialiased min-h-screen flex flex-col`}
       >
-        <AuthProvider>
-          <Navigation />
-          <main className="flex-grow w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-            {children}
-          </main>
-          <Footer />
-        </AuthProvider>
+        <Navigation />
+        <main className="flex-grow w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+          {children}
+        </main>
+        <Footer />
       </body>
     </html>
   );
