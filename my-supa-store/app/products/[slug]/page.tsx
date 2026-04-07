@@ -84,15 +84,17 @@ export default async function ProductPage({ params }: PageProps) {
   if (!product) notFound();
 
   return (
-    <article className="max-w-6xl mx-auto px-6 py-16 lg:py-24 bg-[#0a0a0a]/60 rounded-[3rem] border border-white/[0.05] shadow-[0_35px_60px_-15px_rgba(0,0,0,0.3)] mt-12 backdrop-blur-3xl">
+    <article className="max-w-6xl mx-auto px-6 py-16 lg:py-24 bg-[#0a0a0a]/60 rounded-[3rem] border border-white/[0.05] shadow-[0_35px_60px_-15px_rgba(0,0,0,0.3)] mt-12 backdrop-blur-3xl animate-fade-in-up">
       <Link
         href="/"
         className="inline-flex items-center text-[10px] font-black text-gray-500 hover:text-white mb-16 transition-all duration-300 uppercase tracking-[0.4em] group"
       >
-        <span className="transform group-hover:-translate-x-2 transition-transform duration-300 mr-4">&larr;</span> Explore Catalog
+        <span className="transform group-hover:-translate-x-2 transition-transform duration-300 mr-4">←</span> Explore Catalog
       </Link>
 
-      <ProductContent product={product} />
+      <div className="animate-fade-in-up delay-200">
+        <ProductContent product={product} />
+      </div>
 
       <Suspense
         fallback={
@@ -110,7 +112,11 @@ export default async function ProductPage({ params }: PageProps) {
           </div>
         }
       >
-        {productId && <SimilarProducts productId={productId} />}
+        {productId && (
+          <div className="animate-fade-in-up delay-400">
+            <SimilarProducts productId={productId} />
+          </div>
+        )}
       </Suspense>
 
       <Suspense
@@ -129,7 +135,9 @@ export default async function ProductPage({ params }: PageProps) {
           </div>
         }
       >
-        <SponsoredSection initialProducts={sponsoredProducts} />
+        <div className="animate-fade-in-up delay-600">
+          <SponsoredSection initialProducts={sponsoredProducts} />
+        </div>
       </Suspense>
     </article>
   );

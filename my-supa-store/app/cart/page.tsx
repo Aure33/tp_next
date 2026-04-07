@@ -1,5 +1,4 @@
 import Link from 'next/link';
-import Image from 'next/image';
 import { prisma } from '@/utils/prisma';
 import { cookies } from 'next/headers';
 import CartActions from '@/components/CartActions';
@@ -24,13 +23,13 @@ export default async function CartPage() {
 
   if (items.length === 0) {
     return (
-      <div className="max-w-4xl mx-auto py-16">
+      <div className="max-w-4xl mx-auto py-16 animate-fade-in-up">
         <h1 className="text-4xl font-black text-white mb-8">Panier</h1>
-        <div className="text-center py-20 bg-[#0a0a0a]/60 rounded-[3rem] border border-white/[0.05]">
+        <div className="text-center py-20 bg-[#0a0a0a]/60 rounded-[3rem] border border-white/[0.05] backdrop-blur-3xl">
           <p className="text-gray-400 text-xl mb-8">Votre panier est vide</p>
           <Link
             href="/"
-            className="inline-flex items-center px-8 py-4 bg-white text-black font-bold rounded-full hover:bg-gray-200 transition-colors"
+            className="inline-flex items-center px-8 py-4 bg-gradient-to-r from-white via-gray-200 to-gray-400 text-black font-black rounded-full hover:opacity-90 transition-all hover:scale-[1.02] active:scale-[0.98]"
           >
             Continuer mes achats
           </Link>
@@ -44,13 +43,14 @@ export default async function CartPage() {
 
   return (
     <div className="max-w-4xl mx-auto py-16">
-      <h1 className="text-4xl font-black text-white mb-8">Panier ({totalItems})</h1>
+      <h1 className="text-4xl font-black text-white mb-8 animate-fade-in-up">Panier ({totalItems})</h1>
 
       <div className="space-y-6">
-        {items.map((item) => (
+        {items.map((item, index) => (
           <div
             key={item.id}
-            className="flex items-center gap-6 bg-[#0a0a0a]/60 rounded-[2rem] border border-white/[0.05] p-6"
+            className="flex items-center gap-6 bg-[#0a0a0a]/60 rounded-[2rem] border border-white/[0.05] p-6 animate-fade-in-up card-glow"
+            style={{ animationDelay: `${index * 100}ms` }}
           >
             <div className="relative w-24 h-24 bg-[#0c0c0c] rounded-2xl overflow-hidden flex-shrink-0">
               <div className="w-full h-full flex items-center justify-center text-gray-600">
@@ -79,12 +79,12 @@ export default async function CartPage() {
         ))}
       </div>
 
-      <div className="mt-12 bg-[#0a0a0a]/60 rounded-[2rem] border border-white/[0.05] p-8">
+      <div className="mt-12 bg-[#0a0a0a]/60 rounded-[2rem] border border-white/[0.05] p-8 backdrop-blur-3xl animate-fade-in-up delay-400">
         <div className="flex justify-between items-center mb-6">
           <span className="text-gray-400">Sous-total</span>
           <span className="text-2xl font-black text-white">{total.toFixed(2)}€</span>
         </div>
-        <button className="w-full py-5 bg-white text-black font-black rounded-2xl hover:bg-gray-200 transition-colors">
+        <button className="w-full py-5 bg-gradient-to-r from-white via-gray-200 to-gray-400 text-black font-black rounded-2xl hover:opacity-90 transition-all hover:scale-[1.02] active:scale-[0.98]">
           Passer la commande
         </button>
         <Link
