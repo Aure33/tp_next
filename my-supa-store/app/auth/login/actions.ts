@@ -4,7 +4,8 @@ import { redirect } from "next/navigation"
 import { z } from "zod"
 import { prisma } from "@/utils/prisma"
 import bcrypt from "bcryptjs"
-import { SignJWT, jwtVerify } from "jose"
+import { SignJWT } from "jose"
+import { cookies } from "next/headers"
 
 const SECRET = new TextEncoder().encode(
   process.env.AUTH_SECRET || "dev-secret-change-in-production-min-32-chars"
@@ -26,17 +27,14 @@ async function createSession(user: { id: string; email: string; name: string | n
     .setExpirationTime("7d")
     .sign(SECRET)
 
-  cookies().set("session", token, {
+  const cookieStore = await cookies()
+  cookieStore.set("session", token, {
     httpOnly: true,
     secure: process.env.NODE_ENV === "production",
     sameSite: "lax",
     maxAge: 60 * 60 * 24 * 7,
     path: "/",
   })
-}
-
-function cookies() {
-  return import("next/headers").then((mod) => mod.cookies())
 }
 
 export async function login(formData: FormData) {
@@ -76,7 +74,7 @@ export async function login(formData: FormData) {
 }
 
 export async function logout() {
-  const cookieStore = await import("next/headers").then((mod) => mod.cookies())
-  cookieStore().delete("session")
+  const cookieStore = await cookies()
+  cookieStore.delete("session")
   redirect("/")
 }

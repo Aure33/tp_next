@@ -1,5 +1,6 @@
 import { PrismaClient } from '@prisma/client'
-import productsData from '../domains/catalog/data/products.json'
+import { readFileSync } from 'fs'
+import { join } from 'path'
 
 const prisma = new PrismaClient()
 
@@ -7,11 +8,23 @@ interface JsonProduct {
   id: string
   slug: string
   similar?: string[]
+  name: string
+  description: string
+  price: number
+  currency: string
+  stock: number
+  sku: string
+  category: string
+  brand: string
+  images: any
+  specs: any
 }
 
-const products = productsData as unknown as JsonProduct[]
-
 async function main() {
+  const productsData = JSON.parse(
+    readFileSync(join(__dirname, '../domains/catalog/data/products.json'), 'utf-8')
+  ) as JsonProduct[]
+
   console.log('Seeding products...')
 
   await prisma.similarProduct.deleteMany()
@@ -19,7 +32,7 @@ async function main() {
   await prisma.cart.deleteMany()
   await prisma.product.deleteMany()
 
-  for (const product of productsData as any[]) {
+  for (const product of productsData) {
     await prisma.product.create({
       data: {
         id: product.id,
@@ -39,12 +52,12 @@ async function main() {
     })
   }
 
-  console.log(`Seed OK: ${(productsData as any[]).length} produits insérés.`)
+  console.log(`Seed OK: ${productsData.length} produits insérés.`)
 
-  const slugToId = new Map(products.map((p) => [p.slug, p.id]))
+  const slugToId = new Map(productsData.map((p) => [p.slug, p.id]))
   const similarData: { productId: string; similarProductId: string; score: number }[] = []
 
-  for (const p of products) {
+  for (const p of productsData) {
     if (!p.similar?.length) continue
     p.similar.forEach((slug, index) => {
       const similarId = slugToId.get(slug)

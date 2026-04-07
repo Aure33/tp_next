@@ -22,6 +22,7 @@ async function getSession() {
 
 export default async function Navigation() {
   const session = await getSession()
+  const isAdmin = session?.role === "admin"
 
   return (
     <nav className="sticky top-0 z-50 w-full backdrop-blur-3xl bg-black/40 border-b border-white/[0.05] transition-all duration-500">
@@ -41,6 +42,14 @@ export default async function Navigation() {
               >
                 Catalog
               </Link>
+              {isAdmin && (
+                <Link
+                  href="/admin/products"
+                  className="text-[10px] font-black tracking-[0.2em] text-blue-400 hover:text-blue-300 transition-all uppercase"
+                >
+                  Admin
+                </Link>
+              )}
               {session?.name ? (
                 <UserMenu userName={session.name as string} />
               ) : (

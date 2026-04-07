@@ -1,15 +1,18 @@
 "use client"
 
 import Link from "next/link"
-import { useState } from "react"
+import { useSearchParams } from "next/navigation"
 
 export function LoginForm() {
-  const [error, setError] = useState("")
+  const searchParams = useSearchParams()
+  const error = searchParams.get("error")
 
   return (
     <form action="/api/login" method="POST" className="space-y-6">
       {error && (
-        <p className="text-red-400 text-sm text-center">{error}</p>
+        <p className="text-red-400 text-sm text-center">
+          Email ou mot de passe incorrect
+        </p>
       )}
 
       <div>
@@ -50,7 +53,7 @@ export function LoginForm() {
       <p className="text-center text-sm text-gray-500">
         Pas encore de compte ?{" "}
         <Link href="/auth/register" className="text-white hover:underline transition-all">
-          S'inscrire
+          S&apos;inscrire
         </Link>
       </p>
     </form>
