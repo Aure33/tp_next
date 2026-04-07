@@ -2,7 +2,7 @@
 
 import { prisma } from "@/utils/prisma"
 import { redirect } from "next/navigation"
-import { revalidateTag } from "next/cache"
+import { revalidatePath } from "next/cache"
 import { z } from "zod"
 
 const productSchema = z.object({
@@ -66,52 +66,46 @@ export async function updateProduct(
 
   const { name, slug, description, price, currency, stock, sku, category, brand } = validatedFields.data
 
-  try {
-    // Check if slug already exists for another product
-    const existingProduct = await prisma.product.findFirst({
-      where: { slug, NOT: { id } },
-    })
+  // Check if slug already exists for another product
+  const existingProduct = await prisma.product.findFirst({
+    where: { slug, NOT: { id } },
+  })
 
-    if (existingProduct) {
-      return {
-        errors: { slug: ["Ce slug existe déjà"] },
-      }
-    }
-
-    // Check if sku already exists for another product
-    const existingSku = await prisma.product.findFirst({
-      where: { sku, NOT: { id } },
-    })
-
-    if (existingSku) {
-      return {
-        errors: { sku: ["Ce SKU existe déjà"] },
-      }
-    }
-
-    await prisma.product.update({
-      data: {
-        name,
-        slug,
-        description,
-        price,
-        currency,
-        stock,
-        sku,
-        category,
-        brand,
-      },
-      where: { id },
-    })
-
-    // Invalidate products cache
-    revalidateTag("products")
-
-    redirect("/admin/products")
-  } catch (error) {
-    console.error("Update product error:", error)
+  if (existingProduct) {
     return {
-      message: "Une erreur est survenue lors de la mise à jour. Veuillez réessayer.",
+      errors: { slug: ["Ce slug existe déjà"] },
     }
   }
+
+  // Check if sku already exists for another product
+  const existingSku = await prisma.product.findFirst({
+    where: { sku, NOT: { id } },
+  })
+
+  if (existingSku) {
+    return {
+      errors: { sku: ["Ce SKU existe déjà"] },
+    }
+  }
+
+  await prisma.product.update({
+    data: {
+      name,
+      slug,
+      description,
+      price,
+      currency,
+      stock,
+      sku,
+      category,
+      brand,
+    },
+    where: { id },
+  })
+
+  // Invalidate cache
+  revalidatePath("/")
+  revalidatePath("/admin/products")
+
+  redirect("/admin/products")
 }
