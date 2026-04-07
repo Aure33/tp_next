@@ -1,9 +1,9 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import Image from 'next/image';
-import Link from 'next/link';
+import PrefetchLink from '@/components/PrefetchLink';
 import type { SponsoredProduct } from '@/domains/catalog/entity/sponsoredProduct';
 
 interface SponsoredSectionProps {
@@ -14,6 +14,10 @@ export default function SponsoredSection({ initialProducts }: SponsoredSectionPr
   const [products, setProducts] = useState<SponsoredProduct[]>(initialProducts);
   const [isRefreshing, setIsRefreshing] = useState(false);
   const router = useRouter();
+
+  useEffect(() => {
+    // Already handled in PrefetchLink component
+  }, []);
 
   const handleRefresh = async () => {
     setIsRefreshing(true);
@@ -56,7 +60,7 @@ export default function SponsoredSection({ initialProducts }: SponsoredSectionPr
           </>
         ) : (
           products.map((product) => (
-            <Link
+            <PrefetchLink
               key={product.id}
               href={`/sponsored/${product.handle}`}
               className="group block"
@@ -84,7 +88,7 @@ export default function SponsoredSection({ initialProducts }: SponsoredSectionPr
                   {product.currency}
                 </span>
               </p>
-            </Link>
+            </PrefetchLink>
           ))
         )}
       </div>

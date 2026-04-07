@@ -1,6 +1,6 @@
 import { prisma } from '@/utils/prisma';
 import Image from 'next/image';
-import Link from 'next/link';
+import PrefetchLink from '@/components/PrefetchLink';
 
 async function getSimilarProducts(productId: string) {
   const similarProducts = await prisma.similarProduct.findMany({
@@ -32,7 +32,7 @@ export default async function SimilarProducts({ productId }: { productId: string
       </h2>
       <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
         {products.map((product) => (
-          <Link
+          <PrefetchLink
             key={product.id}
             href={`/products/${product.slug}`}
             className="group block"
@@ -55,7 +55,7 @@ export default async function SimilarProducts({ productId }: { productId: string
             <p className="text-sm font-black text-gray-400 mt-1">
               {product.price}€
             </p>
-          </Link>
+          </PrefetchLink>
         ))}
       </div>
     </section>
