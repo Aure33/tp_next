@@ -1,5 +1,6 @@
 import Link from 'next/link';
 import CartSummary from './CartSummary';
+import { UserMenu } from './UserMenu';
 
 export default function Navigation() {
   return (
@@ -13,19 +14,14 @@ export default function Navigation() {
           </div>
           <div className="flex items-center space-x-8">
             <CartSummary />
-            <div className="hidden sm:flex sm:space-x-10">
+            <div className="hidden sm:flex sm:space-x-10 items-center">
               <Link
                 href="/"
                 className="text-[10px] font-black tracking-[0.2em] text-gray-500 hover:text-white transition-all uppercase"
               >
                 Catalog
               </Link>
-              <Link
-                href="/admin/products"
-                className="text-[10px] font-black tracking-[0.2em] text-gray-500 hover:text-blue-500 transition-all uppercase"
-              >
-                Admin
-              </Link>
+              <UserMenu />
             </div>
           </div>
         </div>
