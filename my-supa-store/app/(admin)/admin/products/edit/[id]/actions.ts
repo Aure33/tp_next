@@ -30,7 +30,16 @@ type ProductUpdateState = {
     brand?: string[]
   }
   message?: string
+  success?: boolean
 } | undefined
+
+// Server Action pour tester une erreur
+export async function testError(prevState: ProductUpdateState): Promise<ProductUpdateState> {
+  return {
+    message: "Erreur test : La connexion à la base de données a échoué. Veuillez réessayer.",
+    errors: undefined,
+  }
+}
 
 export async function updateProduct(
   id: string,
@@ -57,45 +66,52 @@ export async function updateProduct(
 
   const { name, slug, description, price, currency, stock, sku, category, brand } = validatedFields.data
 
-  // Check if slug already exists for another product
-  const existingProduct = await prisma.product.findFirst({
-    where: { slug, NOT: { id } },
-  })
+  try {
+    // Check if slug already exists for another product
+    const existingProduct = await prisma.product.findFirst({
+      where: { slug, NOT: { id } },
+    })
 
-  if (existingProduct) {
+    if (existingProduct) {
+      return {
+        errors: { slug: ["Ce slug existe déjà"] },
+      }
+    }
+
+    // Check if sku already exists for another product
+    const existingSku = await prisma.product.findFirst({
+      where: { sku, NOT: { id } },
+    })
+
+    if (existingSku) {
+      return {
+        errors: { sku: ["Ce SKU existe déjà"] },
+      }
+    }
+
+    await prisma.product.update({
+      data: {
+        name,
+        slug,
+        description,
+        price,
+        currency,
+        stock,
+        sku,
+        category,
+        brand,
+      },
+      where: { id },
+    })
+
+    // Invalidate products cache
+    revalidateTag("products")
+
+    redirect("/admin/products")
+  } catch (error) {
+    console.error("Update product error:", error)
     return {
-      errors: { slug: ["Ce slug existe déjà"] },
+      message: "Une erreur est survenue lors de la mise à jour. Veuillez réessayer.",
     }
   }
-
-  // Check if sku already exists for another product
-  const existingSku = await prisma.product.findFirst({
-    where: { sku, NOT: { id } },
-  })
-
-  if (existingSku) {
-    return {
-      errors: { sku: ["Ce SKU existe déjà"] },
-    }
-  }
-
-  await prisma.product.update({
-    data: {
-      name,
-      slug,
-      description,
-      price,
-      currency,
-      stock,
-      sku,
-      category,
-      brand,
-    },
-    where: { id },
-  })
-
-  // Invalidate products cache
-  revalidateTag("products")
-
-  redirect("/admin/products")
 }

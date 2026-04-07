@@ -1,7 +1,7 @@
 "use client"
 
 import { useActionState } from "react"
-import { updateProduct } from "./actions"
+import { updateProduct, testError } from "./actions"
 import { Product } from "@prisma/client"
 
 type ProductFormProps = {
@@ -18,8 +18,19 @@ export function ProductEditForm({ product }: ProductFormProps) {
     initialState
   )
 
+  const [errorState, errorAction, isErroring] = useActionState(testError, initialState)
+
   return (
     <form action={formAction} className="space-y-6">
+      {/* Error message */}
+      {(state?.message || errorState?.message) && (
+        <div className="p-4 rounded-lg bg-red-500/10 border border-red-500/20">
+          <p className="text-red-400 text-sm text-center">
+            {state?.message || errorState?.message}
+          </p>
+        </div>
+      )}
+
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         <div>
           <label htmlFor="name" className="block text-[10px] font-black uppercase tracking-widest text-gray-500 mb-2">
@@ -177,20 +188,32 @@ export function ProductEditForm({ product }: ProductFormProps) {
         </div>
       </div>
 
-      <div className="flex justify-end space-x-4 pt-6 border-t border-white/[0.05]">
-        <a
-          href="/admin/products"
-          className="px-6 py-3 border border-white/[0.05] rounded-lg text-gray-400 hover:text-white hover:border-white/[0.2] transition-all text-[10px] font-black uppercase tracking-widest"
-        >
-          Annuler
-        </a>
+      <div className="flex justify-between items-center pt-6 border-t border-white/[0.05]">
+        {/* Test error button */}
         <button
-          type="submit"
-          disabled={isPending}
-          className="px-8 py-3 bg-gradient-to-r from-white via-gray-200 to-gray-400 text-black rounded-lg hover:opacity-90 disabled:opacity-50 transition-all text-[10px] font-black uppercase tracking-widest hover:scale-[1.02] active:scale-[0.98]"
+          type="button"
+          onClick={() => errorAction(new FormData())}
+          disabled={isErroring}
+          className="px-4 py-2 border border-red-500/30 rounded-lg text-red-400 hover:bg-red-500/10 disabled:opacity-50 transition-all text-[10px] font-black uppercase tracking-widest"
         >
-          {isPending ? "Enregistrement..." : "Enregistrer"}
+          Tester erreur
         </button>
+
+        <div className="flex space-x-4">
+          <a
+            href="/admin/products"
+            className="px-6 py-3 border border-white/[0.05] rounded-lg text-gray-400 hover:text-white hover:border-white/[0.2] transition-all text-[10px] font-black uppercase tracking-widest"
+          >
+            Annuler
+          </a>
+          <button
+            type="submit"
+            disabled={isPending}
+            className="px-8 py-3 bg-gradient-to-r from-white via-gray-200 to-gray-400 text-black rounded-lg hover:opacity-90 disabled:opacity-50 transition-all text-[10px] font-black uppercase tracking-widest hover:scale-[1.02] active:scale-[0.98]"
+          >
+            {isPending ? "Enregistrement..." : "Enregistrer"}
+          </button>
+        </div>
       </div>
     </form>
   )
