@@ -2,6 +2,7 @@
 
 import { prisma } from "@/utils/prisma"
 import { redirect } from "next/navigation"
+import { revalidateTag } from "next/cache"
 import { z } from "zod"
 
 const productSchema = z.object({
@@ -92,6 +93,9 @@ export async function updateProduct(
     },
     where: { id },
   })
+
+  // Invalidate products cache
+  revalidateTag("products")
 
   redirect("/admin/products")
 }

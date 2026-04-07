@@ -3,6 +3,7 @@ import { prisma } from "@/utils/prisma";
 import Image from "next/image";
 import Link from "next/link";
 import { Suspense } from "react";
+import { unstable_cache } from "next/cache";
 import SponsoredSection from "@/components/SponsoredSection";
 import { fetchMockShopProducts } from "@/utils/graphql";
 
@@ -15,7 +16,17 @@ function mapDbToProduct(dbProduct: any): Product {
   };
 }
 
-export const dynamic = 'force-dynamic';
+// Cached product fetching with revalidateTag
+const getCachedProducts = unstable_cache(
+  async () => {
+    const dbProducts = await prisma.product.findMany({
+      orderBy: { createdAt: "desc" },
+    });
+    return dbProducts.map(mapDbToProduct);
+  },
+  ["products"],
+  { revalidate: 60, tags: ["products"] }
+);
 
 function SponsoredSectionSkeleton() {
   return (
@@ -35,11 +46,7 @@ function SponsoredSectionSkeleton() {
 }
 
 export default async function HomePage() {
-  const dbProducts = await prisma.product.findMany({
-    orderBy: { createdAt: "desc" },
-  });
-  
-  const products: Product[] = dbProducts.map(mapDbToProduct);
+  const products = await getCachedProducts();
   const sponsoredProducts = await fetchMockShopProducts(4);
 
   return (
