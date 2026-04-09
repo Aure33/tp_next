@@ -1,4 +1,4 @@
-import NextAuth, { signIn, signOut, auth } from "next-auth"
+import NextAuth from "next-auth"
 import Credentials from "next-auth/providers/credentials"
 import bcrypt from "bcryptjs"
 import { prisma } from "@/utils/prisma"
@@ -65,4 +65,3 @@ const handler = NextAuth({
 })
 
 export default handler
-export { auth, signIn, signOut }

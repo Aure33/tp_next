@@ -17,35 +17,16 @@ const productSchema = z.object({
   brand: z.string().min(1, "La marque est requise"),
 })
 
-type ProductUpdateState = {
-  errors?: {
-    name?: string[]
-    slug?: string[]
-    description?: string[]
-    price?: string[]
-    currency?: string[]
-    stock?: string[]
-    sku?: string[]
-    category?: string[]
-    brand?: string[]
-  }
+type FormState = {
+  errors?: Record<string, string[]>
   message?: string
-  success?: boolean
-} | undefined
-
-// Server Action pour tester une erreur
-export async function testError(prevState: ProductUpdateState): Promise<ProductUpdateState> {
-  return {
-    message: "Erreur test : La connexion à la base de données a échoué. Veuillez réessayer.",
-    errors: undefined,
-  }
 }
 
 export async function updateProduct(
   id: string,
-  prevState: ProductUpdateState,
+  prevState: FormState | undefined,
   formData: FormData
-) {
+): Promise<FormState> {
   const validatedFields = productSchema.safeParse({
     name: formData.get("name"),
     slug: formData.get("slug"),
@@ -59,9 +40,11 @@ export async function updateProduct(
   })
 
   if (!validatedFields.success) {
-    return {
-      errors: validatedFields.error.flatten().fieldErrors,
+    const errors: Record<string, string[]> = {}
+    for (const [key, value] of Object.entries(validatedFields.error.flatten().fieldErrors)) {
+      errors[key] = value
     }
+    return { errors }
   }
 
   const { name, slug, description, price, currency, stock, sku, category, brand } = validatedFields.data
@@ -72,9 +55,7 @@ export async function updateProduct(
   })
 
   if (existingProduct) {
-    return {
-      errors: { slug: ["Ce slug existe déjà"] },
-    }
+    return { errors: { slug: ["Ce slug existe déjà"] } }
   }
 
   // Check if sku already exists for another product
@@ -83,9 +64,7 @@ export async function updateProduct(
   })
 
   if (existingSku) {
-    return {
-      errors: { sku: ["Ce SKU existe déjà"] },
-    }
+    return { errors: { sku: ["Ce SKU existe déjà"] } }
   }
 
   await prisma.product.update({

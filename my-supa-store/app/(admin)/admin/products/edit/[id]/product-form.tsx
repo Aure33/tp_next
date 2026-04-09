@@ -1,33 +1,50 @@
 "use client"
 
-import { useActionState } from "react"
-import { updateProduct, testError } from "./actions"
+import { useState } from "react"
+import { updateProduct } from "./actions"
 import { Product } from "@prisma/client"
 
 type ProductFormProps = {
   product: Product
 }
 
-const initialState = {
-  message: "",
+type FormState = {
+  message?: string
+  errors?: Record<string, string[]>
 }
 
 export function ProductEditForm({ product }: ProductFormProps) {
-  const [state, formAction, isPending] = useActionState(
-    (prevState: any, formData: FormData) => updateProduct(product.id, prevState, formData),
-    initialState
-  )
+  const [message, setMessage] = useState("")
+  const [errors, setErrors] = useState<Record<string, string[]>>({})
+  const [isPending, setIsPending] = useState(false)
 
-  const [errorState, errorAction, isErroring] = useActionState(testError, initialState)
+  const handleSubmit = async (formData: FormData) => {
+    setIsPending(true)
+    setMessage("")
+    setErrors({})
+
+    try {
+      const result = await updateProduct(product.id, undefined, formData)
+      
+      if (result?.errors) {
+        setErrors(result.errors)
+      }
+      if (result?.message) {
+        setMessage(result.message)
+      }
+    } catch (error) {
+      setMessage("Une erreur est survenue")
+    } finally {
+      setIsPending(false)
+    }
+  }
 
   return (
-    <form action={formAction} className="space-y-6">
+    <form action={handleSubmit} className="space-y-6">
       {/* Error message */}
-      {(state?.message || errorState?.message) && (
+      {message && (
         <div className="p-4 rounded-lg bg-red-500/10 border border-red-500/20">
-          <p className="text-red-400 text-sm text-center">
-            {state?.message || errorState?.message}
-          </p>
+          <p className="text-red-400 text-sm text-center">{message}</p>
         </div>
       )}
 
@@ -44,8 +61,8 @@ export function ProductEditForm({ product }: ProductFormProps) {
             required
             className="w-full px-4 py-3 bg-black/20 border border-white/[0.05] rounded-lg text-white placeholder-gray-600 focus:outline-none focus:border-white/[0.2] focus:ring-1 focus:ring-white/[0.1] transition-all"
           />
-          {state?.errors?.name && (
-            <p className="text-red-400 text-xs mt-2">{state.errors.name[0]}</p>
+          {errors?.name && (
+            <p className="text-red-400 text-xs mt-2">{errors.name[0]}</p>
           )}
         </div>
 
@@ -61,8 +78,8 @@ export function ProductEditForm({ product }: ProductFormProps) {
             required
             className="w-full px-4 py-3 bg-black/20 border border-white/[0.05] rounded-lg text-white placeholder-gray-600 focus:outline-none focus:border-white/[0.2] focus:ring-1 focus:ring-white/[0.1] transition-all"
           />
-          {state?.errors?.slug && (
-            <p className="text-red-400 text-xs mt-2">{state.errors.slug[0]}</p>
+          {errors?.slug && (
+            <p className="text-red-400 text-xs mt-2">{errors.slug[0]}</p>
           )}
         </div>
 
@@ -78,8 +95,8 @@ export function ProductEditForm({ product }: ProductFormProps) {
             rows={4}
             className="w-full px-4 py-3 bg-black/20 border border-white/[0.05] rounded-lg text-white placeholder-gray-600 focus:outline-none focus:border-white/[0.2] focus:ring-1 focus:ring-white/[0.1] transition-all resize-none"
           />
-          {state?.errors?.description && (
-            <p className="text-red-400 text-xs mt-2">{state.errors.description[0]}</p>
+          {errors?.description && (
+            <p className="text-red-400 text-xs mt-2">{errors.description[0]}</p>
           )}
         </div>
 
@@ -96,8 +113,8 @@ export function ProductEditForm({ product }: ProductFormProps) {
             required
             className="w-full px-4 py-3 bg-black/20 border border-white/[0.05] rounded-lg text-white placeholder-gray-600 focus:outline-none focus:border-white/[0.2] focus:ring-1 focus:ring-white/[0.1] transition-all"
           />
-          {state?.errors?.price && (
-            <p className="text-red-400 text-xs mt-2">{state.errors.price[0]}</p>
+          {errors?.price && (
+            <p className="text-red-400 text-xs mt-2">{errors.price[0]}</p>
           )}
         </div>
 
@@ -114,8 +131,8 @@ export function ProductEditForm({ product }: ProductFormProps) {
             maxLength={3}
             className="w-full px-4 py-3 bg-black/20 border border-white/[0.05] rounded-lg text-white placeholder-gray-600 focus:outline-none focus:border-white/[0.2] focus:ring-1 focus:ring-white/[0.1] transition-all"
           />
-          {state?.errors?.currency && (
-            <p className="text-red-400 text-xs mt-2">{state.errors.currency[0]}</p>
+          {errors?.currency && (
+            <p className="text-red-400 text-xs mt-2">{errors.currency[0]}</p>
           )}
         </div>
 
@@ -131,8 +148,8 @@ export function ProductEditForm({ product }: ProductFormProps) {
             required
             className="w-full px-4 py-3 bg-black/20 border border-white/[0.05] rounded-lg text-white placeholder-gray-600 focus:outline-none focus:border-white/[0.2] focus:ring-1 focus:ring-white/[0.1] transition-all"
           />
-          {state?.errors?.stock && (
-            <p className="text-red-400 text-xs mt-2">{state.errors.stock[0]}</p>
+          {errors?.stock && (
+            <p className="text-red-400 text-xs mt-2">{errors.stock[0]}</p>
           )}
         </div>
 
@@ -148,8 +165,8 @@ export function ProductEditForm({ product }: ProductFormProps) {
             required
             className="w-full px-4 py-3 bg-black/20 border border-white/[0.05] rounded-lg text-white placeholder-gray-600 focus:outline-none focus:border-white/[0.2] focus:ring-1 focus:ring-white/[0.1] transition-all"
           />
-          {state?.errors?.sku && (
-            <p className="text-red-400 text-xs mt-2">{state.errors.sku[0]}</p>
+          {errors?.sku && (
+            <p className="text-red-400 text-xs mt-2">{errors.sku[0]}</p>
           )}
         </div>
 
@@ -165,8 +182,8 @@ export function ProductEditForm({ product }: ProductFormProps) {
             required
             className="w-full px-4 py-3 bg-black/20 border border-white/[0.05] rounded-lg text-white placeholder-gray-600 focus:outline-none focus:border-white/[0.2] focus:ring-1 focus:ring-white/[0.1] transition-all"
           />
-          {state?.errors?.category && (
-            <p className="text-red-400 text-xs mt-2">{state.errors.category[0]}</p>
+          {errors?.category && (
+            <p className="text-red-400 text-xs mt-2">{errors.category[0]}</p>
           )}
         </div>
 
@@ -182,22 +199,15 @@ export function ProductEditForm({ product }: ProductFormProps) {
             required
             className="w-full px-4 py-3 bg-black/20 border border-white/[0.05] rounded-lg text-white placeholder-gray-600 focus:outline-none focus:border-white/[0.2] focus:ring-1 focus:ring-white/[0.1] transition-all"
           />
-          {state?.errors?.brand && (
-            <p className="text-red-400 text-xs mt-2">{state.errors.brand[0]}</p>
+          {errors?.brand && (
+            <p className="text-red-400 text-xs mt-2">{errors.brand[0]}</p>
           )}
         </div>
       </div>
 
       <div className="flex justify-between items-center pt-6 border-t border-white/[0.05]">
-        {/* Test error button */}
-        <button
-          type="button"
-          onClick={() => errorAction(new FormData())}
-          disabled={isErroring}
-          className="px-4 py-2 border border-red-500/30 rounded-lg text-red-400 hover:bg-red-500/10 disabled:opacity-50 transition-all text-[10px] font-black uppercase tracking-widest"
-        >
-          Tester erreur
-        </button>
+        {/* Test error button - removed as it needs useActionState */}
+        <div />
 
         <div className="flex space-x-4">
           <a
