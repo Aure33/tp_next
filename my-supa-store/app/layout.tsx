@@ -23,8 +23,47 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "My Supa Store",
-  description: "La meilleure boutique",
+  metadataBase: new URL("http://localhost:3000"),
+  title: {
+    default: "My Supa Store",
+    template: "%s | My Supa Store",
+  },
+  description: "Catalogue premium de produits tech sélectionnés.",
+  keywords: [
+    "boutique tech",
+    "produits électroniques",
+    "accessoires",
+    "audio",
+    "wearables",
+    "my supa store",
+  ],
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      "max-video-preview": -1,
+      "max-image-preview": "large",
+      "max-snippet": -1,
+    },
+  },
+  openGraph: {
+    title: "My Supa Store",
+    description: "Catalogue premium de produits tech sélectionnés.",
+    url: "/",
+    siteName: "My Supa Store",
+    locale: "fr_FR",
+    type: "website",
+    images: [
+      {
+        url: "https://images.unsplash.com/photo-1511467687858-23d96c32e4ae?w=1200",
+        width: 1200,
+        height: 630,
+        alt: "My Supa Store - Catalogue produits",
+      },
+    ],
+  },
 };
 
 export default function RootLayout({

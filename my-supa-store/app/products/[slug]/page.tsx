@@ -7,6 +7,7 @@ import { Product } from '@/domains/catalog/types';
 import { prisma } from '@/utils/prisma';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
+import type { Metadata } from 'next';
 
 type PageProps = {
   params: Promise<{ slug: string }>;
@@ -51,12 +52,52 @@ export async function generateMetadata({ params }: PageProps) {
   const resolvedParams = await params;
   const product = await getProduct(resolvedParams.slug);
 
-  if (!product) return { title: 'Produit non trouvé' };
+  if (!product) {
+    return {
+      title: 'Produit non trouvé',
+      description: "Le produit demandé n'est pas disponible.",
+      robots: { index: false, follow: false },
+    } satisfies Metadata;
+  }
+
+  const keywords = [
+    product.name,
+    product.category,
+    product.brand,
+    product.sku,
+    'produit tech',
+    'my supa store',
+  ];
 
   return {
-    title: `${product.name} | My Supa Store`,
+    title: product.name,
     description: product.description,
-  };
+    keywords,
+    robots: {
+      index: product.stock > 0,
+      follow: true,
+      googleBot: {
+        index: product.stock > 0,
+        follow: true,
+        'max-image-preview': 'large',
+      },
+    },
+    openGraph: {
+      title: product.name,
+      description: product.description,
+      url: `/products/${product.slug}`,
+      siteName: 'My Supa Store',
+      type: 'website',
+      images: [
+        {
+          url: product.images.main,
+          width: 1200,
+          height: 630,
+          alt: product.name,
+        },
+      ],
+    },
+  } satisfies Metadata;
 }
 
 function ProductFallback() {
