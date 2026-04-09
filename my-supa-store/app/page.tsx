@@ -6,6 +6,7 @@ import { Suspense } from "react";
 import { unstable_cache } from "next/cache";
 import SponsoredSection from "@/components/SponsoredSection";
 import { fetchMockShopProducts } from "@/utils/graphql";
+import PublicEnvBadge from "@/components/PublicEnvBadge";
 
 function mapDbToProduct(dbProduct: any): Product {
   return {
@@ -51,6 +52,8 @@ export default async function HomePage() {
 
   return (
     <div className="space-y-24 py-16">
+      <PublicEnvBadge />
+
       {/* Hero Section with diagonal flow */}
       <section className="relative text-center py-20 px-6 overflow-hidden rounded-[3rem] border border-white/5 bg-[#080808]/40 backdrop-blur-3xl shadow-2xl">
         {/* Diagonal accent line */}

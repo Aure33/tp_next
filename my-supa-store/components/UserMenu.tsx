@@ -7,6 +7,8 @@ interface UserMenuProps {
 }
 
 export function UserMenu({ userName }: UserMenuProps) {
+  const publicSiteName = process.env.NEXT_PUBLIC_SITE_NAME ?? "Site name not set"
+
   const initials = userName
     .split(" ")
     .map((n) => n[0])
@@ -21,6 +23,9 @@ export function UserMenu({ userName }: UserMenuProps) {
 
   return (
     <div className="flex items-center space-x-4">
+      <span className="hidden lg:block text-[9px] font-black uppercase tracking-widest text-gray-600">
+        {publicSiteName}
+      </span>
       <Link
         href="/account"
         className="w-8 h-8 flex items-center justify-center bg-white/10 rounded-full text-xs font-black text-white hover:bg-white/20 transition-all"
